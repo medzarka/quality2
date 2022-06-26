@@ -15,8 +15,8 @@ class Migration(migrations.Migration):
             name='Link',
             fields=[
                 ('link_id', models.BigAutoField(primary_key=True, serialize=False, verbose_name='Link ID')),
-                ('link_description', models.CharField(max_length=2048, unique=True, verbose_name='Link Description')),
-                ('link_url', models.CharField(max_length=2048, unique=True, verbose_name='Link URL')),
+                ('link_description', models.CharField(max_length=1024, unique=True, verbose_name='Link Description')),
+                ('link_url', models.CharField(max_length=1024, unique=True, verbose_name='Link URL')),
                 ('link_time', models.DateTimeField(auto_now=True, verbose_name='Link Submission time')),
                 ('link_semester', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='_data.semester')),
             ],
