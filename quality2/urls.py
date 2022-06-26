@@ -31,10 +31,8 @@ urlpatterns = [
 if settings.SITE_ADMIN_TEMPLATE == 'GRAPPELLI':
     urlpatterns += [re_path(r'^grappelli/', include('grappelli.urls')), ]
 
-
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 admin.site.site_header = settings.ADMIN_SITE_SITE_HEADER
 admin.site.index_title = settings.ADMIN_SITE_INDEX_TITLE
