@@ -205,10 +205,10 @@ USE_TZ = True
 createDir(os.path.join(SITE_FILES_DIR, 'static'))
 createDir(os.path.join(SITE_FILES_DIR, 'media'))
 STATIC_ROOT = os.path.join(os.path.join(SITE_FILES_DIR, 'static'))
-STATIC_URL = '/static/'
+STATIC_URL = f'{env.str("SITE_URL_PREFIX")}/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 MEDIA_ROOT = os.path.join(os.path.join(SITE_FILES_DIR, 'media'))
-MEDIA_URL = '/media/'
+MEDIA_URL = f'{env.str("SITE_URL_PREFIX")}/media/'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 print(f'[DIR] the static files are in {os.path.join(SITE_FILES_DIR, "static")}')
 print(f'[DIR] the media files are in {os.path.join(SITE_FILES_DIR, "media")}')
