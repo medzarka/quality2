@@ -24,12 +24,8 @@ class email(models.Model):
         return f'{self.email_sender} to - {self.email_receiver}- at {self.sending_time}'
 
     def send(self):
-
-        if settings.EMAIL_MODE == 'SMTP':
-            print('Sending email through SMTP.')
-            _msg = self.sendSMTP()
-        else:
-            raise Exception(f'Unknown email sending messages {settings.EMAIL_MODE}')
+        print('Sending email through SMTP.')
+        _msg = self.sendSMTP()
         self.sending_state = _msg
         self.save()
 
