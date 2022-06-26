@@ -62,21 +62,33 @@ env = environ.Env(
 )
 env.read_env(os.path.join(BASE_DIR, env_file))
 
+DATA_DIR = os.path.join(os.environ['HOME'], env('SITE_DATA_PATH'))
+createDir(DATA_DIR)
+print(f'[DIR] the base dir is {BASE_DIR}')
+print(f'[DIR] the data dir is {DATA_DIR}')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ')sk)#f&8op^k11%jc+e3=%=5se^$4q9_y3+ligklee=*m1035a'
+SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', env.str('SITE_URL')]
 
+# Application definition
+INSTALLED_APPS = []
+if env.str('SITE_ADMIN_TEMPLATE') == 'GRAPPELLI':
+    INSTALLED_APPS = ['grappelli', ]
+if env.str('SITE_ADMIN_TEMPLATE') == 'ADMIN_INTERFACE':
+    INSTALLED_APPS = ['admin_interface',
+                      'colorfield', ]
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS += [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
