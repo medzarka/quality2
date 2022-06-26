@@ -24,12 +24,12 @@ env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, env_file))
 
 f = open('passenger_wsgi.py', 'w', encoding='UTF8')
-f.write('from quality2.wsgi import application')
-f.write('from whitenoise import WhiteNoise')
+f.write('from quality2.wsgi import application\n')
+f.write('from whitenoise import WhiteNoise\n')
 
 SITE_DATA_DIR = os.path.join(os.environ['HOME'], env('SITE_DATA_PATH'))
 SITE_FILES_DIR = os.path.join(os.environ['HOME'], env('SITE_FILES_PATH'))
 
-f.write(f'application = WhiteNoise(application, root="{os.path.join(os.path.join(SITE_FILES_DIR, "static"))}")')
-f.write(f'application.add_files("{os.path.join(os.path.join(SITE_FILES_DIR, "media"))}", prefix="media/")')
+f.write(f'application = WhiteNoise(application, root="{os.path.join(os.path.join(SITE_FILES_DIR, "static"))}")\n')
+f.write(f'application.add_files("{os.path.join(os.path.join(SITE_FILES_DIR, "media"))}", prefix="media/")\n')
 f.close()
