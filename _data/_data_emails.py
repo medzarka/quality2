@@ -4,15 +4,10 @@ from datetime import datetime
 
 import logging
 
-from socketlabs.injectionapi import SocketLabsClient
-from socketlabs.injectionapi.message.basicmessage import BasicMessage
-from socketlabs.injectionapi.message.emailaddress import EmailAddress
-
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.db import models
 from django.conf import settings
-from django_thread import Thread
 
 
 class email(models.Model):
@@ -33,9 +28,6 @@ class email(models.Model):
         if settings.EMAIL_MODE == 'SMTP':
             print('Sending email through SMTP.')
             _msg = self.sendSMTP()
-        elif settings.EMAIL_MODE == 'SOCKETLABS':
-            print('Sending email through SOCKETLABS.')
-            _msg = self.sendSOCKETLABS()
         else:
             raise Exception(f'Unknown email sending messages {settings.EMAIL_MODE}')
         self.sending_state = _msg
@@ -65,23 +57,7 @@ class email(models.Model):
         else:
             return f'The receiver has no email address !'
 
-    def sendSOCKETLABS(self):
-        if self.email_receiver != '':
-            start_time = datetime.now()
-            client = SocketLabsClient(settings.SITE_SOCKETLABS_API_SERVER_ID,
-                                      settings.SITE_SOCKETLABS_INJECTION_API_KEY)
-            message = BasicMessage()
-            message.subject = self.email_title
-            message.html_body = self.getMessageRended()
-            message.plain_text_body = "This is the Plain Text Body of my message."
-            message.from_email_address = EmailAddress(settings.SITE_SOCKETLABS_SENDER)
-            message.to_email_address.append(EmailAddress(self.email_receiver))
-            response = client.send(message)
-            time_elapsed = datetime.now() - start_time
-            self.email_is_sent = True
-            return f'MESSAGE SEND RESULT = [{str(response)}],  SEND TIME=[{time_elapsed}])'
-        else:
-            return f'ERROR - The receiver has no email address !'
+
 
     def getMessageRended(self):
         res = ''
