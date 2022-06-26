@@ -62,10 +62,13 @@ env = environ.Env(
 )
 env.read_env(os.path.join(BASE_DIR, env_file))
 
-DATA_DIR = os.path.join(os.environ['HOME'], env('SITE_DATA_PATH'))
-createDir(DATA_DIR)
+SITE_DATA_DIR = os.path.join(os.environ['HOME'], env('SITE_DATA_PATH'))
+SITE_FILES_DIR = os.path.join(os.environ['HOME'], env('SITE_FILES_PATH'))
+createDir(SITE_DATA_DIR)
+createDir(SITE_FILES_DIR)
 print(f'[DIR] the base dir is {BASE_DIR}')
-print(f'[DIR] the data dir is {DATA_DIR}')
+print(f'[DIR] the data dir is {SITE_DATA_DIR}')
+print(f'[DIR] the files (static and media) dir is {SITE_FILES_DIR}')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -140,16 +143,21 @@ WSGI_APPLICATION = 'quality2.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mzarka_quotes',
-        'USER': 'mzarka_quotes',
-        'PASSWORD': 'mzarka_quotes',
-        'HOST': 'localhost',
-        'PORT': '3306',
+
+
+
+if env.str('DATABASE_URL', default=''):
+    DATABASES = {
+        'default': env.db(),
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': SITE_DATA_DIR.path('db')('django.sqlite3'),
+        },
+    }
+
 
 
 # Password validation
@@ -175,19 +183,111 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+TIME_ZONE = 'Asia/Riyadh'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
+####### Media and Static files
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
+#createDir(SITE_DATA_DIR)
+#createDir(SITE_FILES_DIR)
 
+createDir(os.path.join(SITE_FILES_DIR, 'static'))
+createDir(os.path.join(SITE_FILES_DIR, 'media'))
+STATIC_ROOT = os.path.join(os.path.join(SITE_FILES_DIR, 'static'))
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-STATIC_ROOT = '/home/mzarka/subdomains/sites/quality.bluewaves.online/static'
+MEDIA_ROOT = os.path.join(os.path.join(SITE_FILES_DIR, 'media'))
+MEDIA_URL = '/media/'
+print(f'[DIR] the static files are in {os.path.join(SITE_FILES_DIR, "static")}')
+print(f'[DIR] the media files are in {os.path.join(SITE_FILES_DIR, "media")}')
+
+
+
+###### Login & Session Age
+# LOGIN_URL = '/web/login/'
+# LOGIN_REDIRECT_URL = '/web/dashboard'
+# AUTH_USER_MODEL = '_data.User'
+# AUTH_LOGIN_URL = 'web_auth_login'
+# AUTH_LOGOUT_URL = 'web_auth_logout'
+# AUTH_DASHBOARD_URL = 'web_dashboard'
+LOGIN_URL = '/web/login/'
+LOGIN_REDIRECT_URL = '/web/dashboard'
+# print(f'[AUTH] the class {AUTH_USER_MODEL} is used as users backend.')
+
+###### allow upload big file
+FILE_UPLOAD_MAX_MEMORY_SIZE = env.int('FILE_UPLOAD_MAX_MEMORY_SIZE')
+print(f'[FILES] the maximum size for file upload is  {FILE_UPLOAD_MAX_MEMORY_SIZE / (1024 * 1024)} MBytes.')
+
+
+#createDir(SITE_DATA_DIR)
+#createDir(SITE_FILES_DIR)
+###### Loggin
+createDir(os.path.join(SITE_DATA_DIR, 'log'))
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(asctime)s %(message)s'
+        },
+    },
+    'handlers': {
+        'db_log': {
+            'level': 'DEBUG',
+            'class': 'django_db_logger.db_log_handler.DatabaseLogHandler'
+        },
+    },
+    'loggers': {
+        'db': {
+            'handlers': ['db_log'],
+            'level': 'DEBUG'
+        },
+        'django.request': {  # logging 500 errors to database
+            'handlers': ['db_log'],
+            'level': 'ERROR',
+            'propagate': False,
+        }
+    }
+}
+DJANGO_DB_LOGGER_ENABLE_FORMATTER = env.bool('DJANGO_DB_LOGGER_ENABLE_FORMATTER')
+DJANGO_DB_LOGGER_ADMIN_LIST_PER_PAGE = env.int('DJANGO_DB_LOGGER_ADMIN_LIST_PER_PAGE')
+
+print(f'[DIR] the log file is in {os.path.join(SITE_DATA_DIR, "log")}')
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#######  Sending emails
+# The email() method is an alias for email_url().
+EMAIL_CONFIG = env.email(
+    'EMAIL_URL',
+    default='smtp://user:password@localhost:25'
+)
+vars().update(EMAIL_CONFIG)
+
+# only if django version >= 3.0
+X_FRAME_OPTIONS = "SAMEORIGIN"
+SILENCED_SYSTEM_CHECKS = ["security.W019"]
+
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
+
+##### Admin Title configuration
+SITE_ADMIN_TEMPLATE = env.str('SITE_ADMIN_TEMPLATE')
+GRAPPELLI_ADMIN_TITLE = env.str('SITE_ADMIN_SITE_TITLE')
+ADMIN_SITE_SITE_HEADER = env.str('SITE_ADMIN_SITE_HEADER')
+ADMIN_SITE_INDEX_TITLE = env.str('SITE_ADMIN_SITE_INDEX_TITLE')
+ADMIN_SITE_SITE_TITLE = env.str('SITE_ADMIN_SITE_TITLE')
+
