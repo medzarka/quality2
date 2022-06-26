@@ -14,11 +14,26 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from quotes import views
+from django.urls import path, re_path
+from django.conf.urls import include
+from django.conf import settings
+from django.contrib.staticfiles.urls import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+from _web import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home),
-
+    path('', views.dashboard, name='index_0'),
+    re_path('web/', include('_web.urls')),
 ]
+
+if settings.SITE_ADMIN_TEMPLATE == 'GRAPPELLI':
+    urlpatterns += [re_path(r'^grappelli/', include('grappelli.urls')), ]
+
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+admin.site.site_header = settings.ADMIN_SITE_SITE_HEADER
+admin.site.index_title = settings.ADMIN_SITE_INDEX_TITLE
+admin.site.site_title = settings.ADMIN_SITE_SITE_TITLE
