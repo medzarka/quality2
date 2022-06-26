@@ -2,7 +2,7 @@ import os
 import sys
 import environ
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 if 'env_file' in os.environ.keys():
     env_file = os.path.join(BASE_DIR, 'env', os.getenv('env_file'))
