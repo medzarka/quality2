@@ -150,6 +150,12 @@ if env.str('DATABASE_URL', default=''):
     DATABASES = {
         'default': env.db(),
     }
+
+    DATABASES['default']['OPTION'] = {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1",
+            'charset': 'utf8mb4',
+            "autocommit": True,
+        }
 else:
     DATABASES = {
         'default': {
