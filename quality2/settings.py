@@ -25,7 +25,7 @@ SECRET_KEY = ')sk)#f&8op^k11%jc+e3=%=5se^$4q9_y3+ligklee=*m1035a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'base.urls'
+ROOT_URLCONF = 'quality2.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'base.wsgi.application'
+WSGI_APPLICATION = 'quality2.wsgi.application'
 
 
 # Database
@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'base.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mzarka_quotes',
+        'USER': 'mzarka_quotes',
+        'PASSWORD': 'mzarka_quotes',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -119,3 +123,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/home/mzarka/subdomains/sites/quality.bluewaves.online/static'
