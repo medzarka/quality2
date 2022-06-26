@@ -89,13 +89,20 @@ if env.str('SITE_ADMIN_TEMPLATE') == 'ADMIN_INTERFACE':
 # Application definition
 
 INSTALLED_APPS += [
+
+    'django_db_logger',
+
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'quotes'
+    'quotes',
+
+    '_data.apps.DataConfig',
+    '_web.apps.WebConfig',
 ]
 
 MIDDLEWARE = [
