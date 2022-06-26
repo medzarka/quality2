@@ -91,6 +91,7 @@ if env.str('SITE_ADMIN_TEMPLATE') == 'ADMIN_INTERFACE':
 INSTALLED_APPS += [
 
     'django_db_logger',
+    'import_export',
 
 
     'django.contrib.admin',
