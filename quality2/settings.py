@@ -10,11 +10,57 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
+import sys
+from pathlib import Path
+import environ
 import os
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+def createDir(dirname):
+    try:
+        os.makedirs(dirname)
+    except FileExistsError:
+        pass
+
+
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+if 'env_file' in os.environ.keys():
+    env_file = os.path.join(BASE_DIR, 'env', os.getenv('env_file'))
+    print(f'Configuration Site in file {env_file}.')
+else:
+    env_file = 'env'
+    env_file = os.path.join(BASE_DIR, 'env', 'env')
+    print(f'Configuration Site in file {env_file}.')
+
+if env_file is None:
+    print(f'The env filename "env_file" is not set !')
+    sys.exit(-1)
+
+if not os.path.exists(os.path.join(BASE_DIR, env_file)):
+    print(f'The env filename {env_file} does not exist!')
+    sys.exit(-1)
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False),
+    SITE_DATA_PATH=(str, 'data'),
+    SESSION_EXPIRE_AT_BROWSER_CLOSE=(bool, False),
+    SESSION_COOKIE_AGE=(int, 3600),
+    FILE_UPLOAD_MAX_MEMORY_SIZE=(int, 104857600),
+    SESSION_COOKIE_SECURE=(bool, True),
+    CSRF_COOKIE_SECURE=(bool, True),
+    SECURE_SSL_REDIRECT=(bool, True),
+    SECURE_HSTS_SECONDS=(int, 2592000),
+    SECURE_HSTS_INCLUDE_SUBDOMAINS=(bool, True),
+    SECURE_HSTS_PRELOAD=(bool, True),
+    SITE_ADMIN_TEMPLATE=(str, 'GRAPPELLI'),
+    SITE_ADMIN_SITE_TITLE=(str, 'uKKU2 Quality Document Manager'),
+    SITE_ADMIN_SITE_HEADER=(str, 'uKKU (ver.2) Admin'),
+    SITE_ADMIN_SITE_INDEX_TITLE=(str, 'Welcome to uKKU2 Admin'),
+)
+env.read_env(os.path.join(BASE_DIR, env_file))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
