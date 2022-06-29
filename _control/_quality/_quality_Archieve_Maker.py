@@ -81,9 +81,9 @@ class QualityArchiveMakerThread(threading.Thread):
 
             if _cfi_obj.cfi_report_state == ReportState.ACCEPTED.value:
                 try:
-                    cfr_filename = os.path.join(settings.DATA_DIR, 'media', Quality_FS.TMP.value,
+                    cfr_filename = os.path.join(settings.SITE_DATA_DIR, 'media', Quality_FS.TMP.value,
                                                 'cfr_report_' + str(_cfi_obj.course_cfi_id) + '.docx')
-                    cfi_filename = os.path.join(settings.DATA_DIR, 'media', Quality_FS.TMP.value,
+                    cfi_filename = os.path.join(settings.SITE_DATA_DIR, 'media', Quality_FS.TMP.value,
                                                 'cfi_report_' + str(_cfi_obj.course_cfi_id) + '.docx')
 
                     _data = {}
@@ -385,7 +385,7 @@ class QualityArchiveMakerThread(threading.Thread):
             self.addLogTrace('[INFO] The archive file was correctly updated in the database<br>')
             _export.elapsedTime = '{}'.format(end_time - start_time)
 
-            exec_log_filename = os.path.join(settings.DATA_DIR, 'media', Quality_FS.TMP.value, 'log_trace.txt')
+            exec_log_filename = os.path.join(settings.SITE_DATA_DIR, 'media', Quality_FS.TMP.value, 'log_trace.txt')
             with open(exec_log_filename, 'w') as f:
                 f.write(self.LogTrace.replace('<br>', ''))
             _export.exec_trace_file.save('exec_log_trace.txt', File(open(exec_log_filename, 'rb')))

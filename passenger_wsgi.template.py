@@ -1,13 +1,20 @@
-import os
+from quality2.wsgi import application
+
+'''import os
 import sys
+
 sys.path.append(os.getcwd())
 os.environ['DJANGO_SETTINGS_MODULE'] = 'quality2.settings'
 import django.core.handlers.wsgi
 from django.core.wsgi import get_wsgi_application
+
 SCRIPT_NAME = os.getcwd()
+
+
 class PassengerPathInfoFix(object):
     def __init__(self, app):
         self.app = app
+
     def __call__(self, environ, start_response):
         from urllib.parse import unquote
         environ['SCRIPT_NAME'] = SCRIPT_NAME
@@ -16,5 +23,8 @@ class PassengerPathInfoFix(object):
         offset = request_uri.startswith(script_name) and len(environ['SCRIPT_NAME']) or 0
         environ['PATH_INFO'] = request_uri[offset:].split('?', 1)[0]
         return self.app(environ, start_response)
+
+
 application = get_wsgi_application()
 application = PassengerPathInfoFix(application)
+'''
