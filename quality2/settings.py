@@ -201,15 +201,15 @@ USE_TZ = True
 #createDir(SITE_DATA_DIR)
 #createDir(SITE_FILES_DIR)
 
-createDir(os.path.join(SITE_FILES_DIR, 'static'))
-createDir(os.path.join(SITE_FILES_DIR, 'media'))
-STATIC_ROOT = os.path.join(os.path.join(SITE_FILES_DIR, 'static'))
+createDir(os.path.join(SITE_FILES_DIR, 'static/'))
+createDir(os.path.join(SITE_FILES_DIR, 'media/'))
+STATIC_ROOT = os.path.join(os.path.join(SITE_FILES_DIR, 'static/'))
 STATIC_URL = f'{env.str("SITE_URL_PREFIX")}/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-MEDIA_ROOT = os.path.join(os.path.join(SITE_FILES_DIR, 'media'))
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
+MEDIA_ROOT = os.path.join(os.path.join(SITE_FILES_DIR, 'media/'))
 MEDIA_URL = f'{env.str("SITE_URL_PREFIX")}/media/'
-print(f'[DIR] the static files are in {os.path.join(SITE_FILES_DIR, "static")}')
-print(f'[DIR] the media files are in {os.path.join(SITE_FILES_DIR, "media")}')
+print(f'[DIR] the static files are in {os.path.join(SITE_FILES_DIR, "static/")}')
+print(f'[DIR] the media files are in {os.path.join(SITE_FILES_DIR, "media/")}')
 
 
 
