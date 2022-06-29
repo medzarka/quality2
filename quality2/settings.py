@@ -23,10 +23,8 @@ def createDir(dirname):
         pass
 
 
-import locale
 
-os.environ["PYTHONIOENCODING"] = "utf-8"
-scriptLocale = locale.setlocale(category=locale.LC_ALL, locale="en_GB.UTF-8")
+sys.setdefaultencoding('utf-8')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
