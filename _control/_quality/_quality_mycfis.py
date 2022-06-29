@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+# coding=utf-8
+
 from django.contrib.auth.models import User
 
 from _control.AbstractPage import Abstract_UI_Page
