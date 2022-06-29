@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 cp -rf ../repositories/quality2/** ./
-python update_passenger_wsgi.py
+cp passenger_wsgi.template.py passenger_wsgi.py
