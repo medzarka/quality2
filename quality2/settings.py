@@ -15,6 +15,7 @@ from pathlib import Path
 import environ
 import os
 
+
 def createDir(dirname):
     try:
         os.makedirs(dirname)
@@ -22,6 +23,10 @@ def createDir(dirname):
         pass
 
 
+import locale
+
+os.environ["PYTHONIOENCODING"] = "utf-8"
+scriptLocale = locale.setlocale(category=locale.LC_ALL, locale="en_GB.UTF-8")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -96,7 +101,6 @@ INSTALLED_APPS += [
     'django_db_logger',
     'import_export',
 
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -139,11 +143,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'quality2.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
-
 
 
 if env.str('DATABASE_URL', default=''):
@@ -152,10 +153,10 @@ if env.str('DATABASE_URL', default=''):
     }
 
     DATABASES['default']['OPTION'] = {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1",
-            'charset': 'utf8mb4',
-            "autocommit": True,
-        }
+        'init_command': "SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1",
+        'charset': 'utf8mb4',
+        "autocommit": True,
+    }
 else:
     DATABASES = {
         'default': {
@@ -163,8 +164,6 @@ else:
             'NAME': SITE_DATA_DIR.path('db')('django.sqlite3'),
         },
     }
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -184,7 +183,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -194,12 +192,11 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-
 ####### Media and Static files
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-#createDir(SITE_DATA_DIR)
-#createDir(SITE_FILES_DIR)
+# createDir(SITE_DATA_DIR)
+# createDir(SITE_FILES_DIR)
 
 createDir(os.path.join(SITE_FILES_DIR, 'static/'))
 createDir(os.path.join(SITE_FILES_DIR, 'media/'))
@@ -210,8 +207,6 @@ MEDIA_ROOT = os.path.join(os.path.join(SITE_FILES_DIR, 'media/'))
 MEDIA_URL = f'{env.str("SITE_URL_PREFIX")}/media/'
 print(f'[DIR] the static files are in {os.path.join(SITE_FILES_DIR, "static/")}')
 print(f'[DIR] the media files are in {os.path.join(SITE_FILES_DIR, "media/")}')
-
-
 
 ###### Login & Session Age
 # LOGIN_URL = '/web/login/'
@@ -228,9 +223,8 @@ LOGIN_REDIRECT_URL = '/web/dashboard'
 FILE_UPLOAD_MAX_MEMORY_SIZE = env.int('FILE_UPLOAD_MAX_MEMORY_SIZE')
 print(f'[FILES] the maximum size for file upload is  {FILE_UPLOAD_MAX_MEMORY_SIZE / (1024 * 1024)} MBytes.')
 
-
-#createDir(SITE_DATA_DIR)
-#createDir(SITE_FILES_DIR)
+# createDir(SITE_DATA_DIR)
+# createDir(SITE_FILES_DIR)
 ###### Loggin
 createDir(os.path.join(SITE_DATA_DIR, 'log'))
 LOGGING = {

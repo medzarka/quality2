@@ -70,7 +70,7 @@ class _page_mycfis(Abstract_UI_Page):
 
             except Exception as e:
                 _h1 = ui_text_element(
-                    text='An internal error was occured: the report is not found ! Please try again. \n ' + str(e),
+                    text='An internal error was occurred: the report is not found ! Please try again. \n ' + str(e),
                     alignment=UI_TEXT_ALIGNMENT_Enum.LEFT,
                     color=UI_TEXT_COLOR_Enum.TEXT_DANGER,
                     heading=UI_TEXT_HEADING_Enum.H4)
