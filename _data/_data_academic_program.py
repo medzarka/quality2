@@ -5,8 +5,8 @@ from django.db import models
 class Specialization(models.Model):
     specialization_id = models.BigAutoField(primary_key=True, verbose_name="Specialization ID")
     specialization_code = models.CharField(max_length=100, verbose_name="Specialization Code")
-    specialization_name = models.CharField(max_length=500, verbose_name="Program Name")
-    specialization_name_ar = models.CharField(max_length=500, verbose_name="Program Arabic Name")
+    specialization_name = models.CharField(max_length=255, verbose_name="Program Name")
+    specialization_name_ar = models.CharField(max_length=255, verbose_name="Program Arabic Name")
 
     def __str__(self):
         return ' [Specialization = ' + self.specialization_name + ']'
@@ -26,9 +26,9 @@ class Specialization(models.Model):
 class Program(models.Model):
     program_id = models.BigAutoField(primary_key=True, verbose_name="Program ID")
     program_code = models.CharField(max_length=100, verbose_name="Program Code")
-    program_name = models.CharField(max_length=500, verbose_name="Program Name")
-    program_name_ar = models.CharField(max_length=500, verbose_name="Program Arabic Name")
-    program_version = models.CharField(max_length=100, verbose_name="Program Version")
+    program_name = models.CharField(max_length=255, verbose_name="Program Name")
+    program_name_ar = models.CharField(max_length=255, verbose_name="Program Arabic Name")
+    program_version = models.CharField(max_length=255, verbose_name="Program Version")
     specialization = models.ForeignKey(Specialization, verbose_name='Specialization',
                                        null=True, on_delete=models.CASCADE,
                                        blank=True)
@@ -55,8 +55,8 @@ class Course(models.Model):
     course_id = models.BigAutoField(primary_key=True, verbose_name='Course ID')
     course_code = models.CharField(max_length=100, verbose_name='Course Code')
     course_code_ar = models.CharField(max_length=100, verbose_name='Course Arabic Code')
-    course_name = models.CharField(max_length=500, verbose_name='Course Name')
-    course_name_ar = models.CharField(max_length=500, verbose_name='Course Arabic Name')
+    course_name = models.CharField(max_length=255, verbose_name='Course Name')
+    course_name_ar = models.CharField(max_length=255, verbose_name='Course Arabic Name')
     course_level = models.IntegerField(default=1, verbose_name='Course Level')
     program = models.ForeignKey(Program, verbose_name='Academic Program',
                                 null=True, on_delete=models.CASCADE,
