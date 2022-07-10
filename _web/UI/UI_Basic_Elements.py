@@ -205,7 +205,7 @@ class ui_text_element(ui_element):
                     if self.link_to_new_tab:
                         res += 'target="_blank"'
                     res += '>'
-        res += str(self.text)
+        res += f'{self.text}'
 
         if self.link_url != '':
             res += '</a>'
