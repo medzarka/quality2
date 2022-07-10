@@ -50,7 +50,7 @@ class _dashboard(Abstract_UI_Page):
             _cell1 = table_cell(cell_centent=_text1)
             _row.add_cell_to_row(_cell1)
 
-            _text1 = ui_text_element(text=f'{_meeting.department}', color=UI_TEXT_COLOR_Enum.TEXT_DARK)
+            _text1 = ui_text_element(text=f'{type(_meeting.department)}', color=UI_TEXT_COLOR_Enum.TEXT_DARK)
             _cell1 = table_cell(cell_centent=_text1)
             _row.add_cell_to_row(_cell1)
 
