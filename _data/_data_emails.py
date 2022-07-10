@@ -20,7 +20,10 @@ class email(models.Model):
     sending_state = models.CharField(max_length=2048, verbose_name="Email Status", default='Created')
     email_is_sent = models.BooleanField(default=False, verbose_name="Email Sent ?")
 
-    def __unicode__(self):
+    def __str__(self):
+        return self._toString().encode('utf-8')
+
+    def _toString(self):
         return f'{self.email_sender} to - {self.email_receiver}- at {self.sending_time}'
 
     def send(self):

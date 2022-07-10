@@ -8,7 +8,10 @@ class Specialization(models.Model):
     specialization_name = models.CharField(max_length=500, verbose_name="Program Name")
     specialization_name_ar = models.CharField(max_length=500, verbose_name="Program Arabic Name")
 
-    def __unicode__(self):
+    def __str__(self):
+        return self._toString().encode('utf-8')
+
+    def _toString(self):
         return ' [Specialization = ' + self.specialization_name + ']'
 
     class Meta:
@@ -33,7 +36,10 @@ class Program(models.Model):
                                        null=True, on_delete=models.CASCADE,
                                        blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
+        return self._toString().encode('utf-8')
+
+    def _toString(self):
         return str(self.specialization) + '[Program = ' + self.program_name + ' version ' + self.program_version + ']'
 
     class Meta:
@@ -62,9 +68,12 @@ class Course(models.Model):
                                 null=True, on_delete=models.CASCADE,
                                 blank=True)
 
-    def __unicode__(self):
-        return str(self.program) + ' Course : ' + self.course_code + ' --- '\
-               + self.course_name + '--- (' + self.course_code_ar + ' - ' + self.course_name_ar +')'
+    def __str__(self):
+        return self._toString().encode('utf-8')
+
+    def _toString(self):
+        return str(self.program) + ' Course : ' + self.course_code + ' --- ' \
+               + self.course_name + '--- (' + self.course_code_ar + ' - ' + self.course_name_ar + ')'
 
     class Meta:
         ordering = ['program', 'course_code', ]

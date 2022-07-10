@@ -35,7 +35,10 @@ class Department(models.Model):
     department_id = models.BigAutoField(primary_key=True, verbose_name="Department")
     department_name = models.CharField(max_length=250, verbose_name="Department Name", null=True, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
+        return self._toString().encode('utf-8')
+
+    def _toString(self):
         return self.department_name
 
     class Meta:
@@ -130,7 +133,10 @@ class GradesFile(models.Model):
     section_department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True)
     section_courseObj = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
+        return self._toString().encode('utf-8')
+
+    def _toString(self):
         return ' Grades File for section ' + str(self.section_code) + ' (' + str(self.submission_time) + ')'
 
     def getCourseFullName(self):
@@ -310,7 +316,10 @@ class CourseFile(models.Model):
                                  related_name='course_reviews')
     version = models.IntegerField(verbose_name="Version", default=0)
 
-    def __unicode__(self):
+    def __str__(self):
+        return self._toString().encode('utf-8')
+
+    def _toString(self):
         return ' Report for the course ' + str(self.course_name) + ' (' + str(self.submission_time) + ')'
 
     def getCourseFullName(self):
@@ -425,9 +434,11 @@ class DepartmentFile(models.Model):
     means_low = models.TextField(verbose_name="means_low", null=True, blank=True)
     means_high = models.TextField(verbose_name="means_high", null=True, blank=True)
 
-    def __unicode__(self):
-        return ' Department Report : ' + str(self.department.department_name) + ' ('
-        str(self.submission_time) + ')'
+    def __str__(self):
+        return self._toString().encode('utf-8')
+
+    def _toString(self):
+        return ' Department Report : ' + str(self.department.department_name) + ' (' + str(self.submission_time) + ')'
 
     class Meta:
         ordering = ['semester', 'department']
@@ -471,7 +482,10 @@ class MeasurementExportFile(models.Model):
     state = models.IntegerField(verbose_name="State", default=0)  # 0 --> in progress, 1 --> done, -1 --> Error
     elapsedTime = models.TextField(verbose_name="Elapsed Time", default='')
 
-    def __unicode__(self):
+    def __str__(self):
+        return self._toString().encode('utf-8')
+
+    def _toString(self):
         return ' Measurement Export File : ' + str(
             self.semester.semester_academic_year.academic_year_name) + '--' + str(
             self.semester.semester_name) + ' (' + str(self.submission_time) + ')'

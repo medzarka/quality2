@@ -21,7 +21,10 @@ class AcademicYear(models.Model):
         else:
             return False
 
-    def __unicode__(self):
+    def __str__(self):
+        return self._toString().encode('utf-8')
+
+    def _toString(self):
         # _start = self.academic_year_date_start.strftime("%A %d. %B %Y")
         # _end = self.academic_year_date_end.strftime("%A %d. %B %Y")
         # _start = self.academic_year_date_start.strftime("%Y")
@@ -79,7 +82,10 @@ class Semester(models.Model):
             return True
         return False
 
-    def __unicode__(self):
+    def __str__(self):
+        return self._toString().encode('utf-8')
+
+    def _toString(self):
         # _start = self.semester_date_start.strftime("%A %d. %B %Y")
         # _end = self.semester_date_end.strftime("%A %d. %B %Y")
         return str(self.semester_academic_year) + '__' + self.semester_name

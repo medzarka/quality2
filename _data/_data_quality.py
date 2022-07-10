@@ -158,9 +158,12 @@ class Course_CFI(models.Model):
 
     # ---------------------------------------------------------------------------------------------------
 
-    def __unicode__(self):
-        return ' CFI File Index for section ' + str(self.gradeFile.section_code) + ' ('
-        str(self.submission_time) + ')'
+    def __str__(self):
+        return self._toString().encode('utf-8')
+
+    def _toString(self):
+        return ' CFI File Index for section ' + str(self.gradeFile.section_code) + ' (' + str(
+            self.submission_time) + ')'
 
     def campus(self):
         return f'[{self.gradeFile.campus_name}'
@@ -337,7 +340,10 @@ class QualityExportFile(models.Model):
     exec_trace_file = models.FileField(upload_to=get_quality_export_logtrace_filename, null=True, blank=True,
                                        max_length=1024)
 
-    def __unicode__(self):
+    def __str__(self):
+        return self._toString().encode('utf-8')
+
+    def _toString(self):
         return ' Quality Export File : ' + str(
             self.semester.semester_academic_year.academic_year_name) + '--' + str(
             self.semester.semester_name) + ' (' + str(self.submission_time) + ')'
