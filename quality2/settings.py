@@ -155,6 +155,8 @@ if env.str('DATABASE_URL', default=''):
         'charset': 'utf8mb4',
         "autocommit": True,
     }
+
+    print(f'DATABASES --> {DATABASES}')
 else:
     DATABASES = {
         'default': {
