@@ -8,7 +8,7 @@ class Link(models.Model):
     link_description = models.CharField(max_length=255, unique=True, verbose_name='Link Description', blank=False,
                                         null=False)
     link_url = models.CharField(max_length=255, unique=True, verbose_name='Link URL', blank=False,
-                                        null=False)
+                                null=False)
     link_time = models.DateTimeField(auto_now=True, verbose_name="Link Submission time")
     link_semester = models.ForeignKey(Semester, on_delete=models.CASCADE, null=True, blank=True)
 

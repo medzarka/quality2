@@ -22,9 +22,6 @@ class AcademicYear(models.Model):
             return False
 
     def __str__(self):
-        return self._toString().encode('utf-8')
-
-    def _toString(self):
         # _start = self.academic_year_date_start.strftime("%A %d. %B %Y")
         # _end = self.academic_year_date_end.strftime("%A %d. %B %Y")
         # _start = self.academic_year_date_start.strftime("%Y")
@@ -51,7 +48,7 @@ class Semester(models.Model):
     TERM_CHOICE = [
         (SEMESTER_I, 'SEMESTER I'),
         (SEMESTER_II, 'SEMESTER II'),
-        (TRIMESTER_I , 'TRIMESTER I'),
+        (TRIMESTER_I, 'TRIMESTER I'),
         (TRIMESTER_II, 'TRIMESTER II'),
         (TRIMESTER_III, 'TRIMESTER III'),
         (SUMMER_TERM, 'SUMMER TERM'),
@@ -81,7 +78,6 @@ class Semester(models.Model):
         if self.semester_name == 'SUMMER TERM':
             return True
         return False
-
 
     def __str__(self):
         # _start = self.semester_date_start.strftime("%A %d. %B %Y")

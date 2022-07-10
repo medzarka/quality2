@@ -10,7 +10,7 @@ class Campus(models.Model):
     campus_name = models.CharField(max_length=512, verbose_name='Campus Name')
     campus_name_ar = models.CharField(max_length=512, verbose_name='Campus Arabic Name')
 
-    def __unicode__(self):
+    def __str__(self):
         return f'{self.campus_name} -- {self.campus_name_ar}'
 
     class Meta:

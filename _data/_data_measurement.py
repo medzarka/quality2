@@ -36,10 +36,7 @@ class Department(models.Model):
     department_name = models.CharField(max_length=250, verbose_name="Department Name", null=True, blank=True)
 
     def __str__(self):
-        return self._toString().encode('utf-8')
-
-    def _toString(self):
-        return f'{self.department_name}'
+        return self.department_name
 
     class Meta:
         ordering = ['department_name', ]
@@ -134,9 +131,6 @@ class GradesFile(models.Model):
     section_courseObj = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return self._toString().encode('utf-8')
-
-    def _toString(self):
         return ' Grades File for section ' + str(self.section_code) + ' (' + str(self.submission_time) + ')'
 
     def getCourseFullName(self):
@@ -317,9 +311,6 @@ class CourseFile(models.Model):
     version = models.IntegerField(verbose_name="Version", default=0)
 
     def __str__(self):
-        return self._toString().encode('utf-8')
-
-    def _toString(self):
         return ' Report for the course ' + str(self.course_name) + ' (' + str(self.submission_time) + ')'
 
     def getCourseFullName(self):
@@ -435,9 +426,6 @@ class DepartmentFile(models.Model):
     means_high = models.TextField(verbose_name="means_high", null=True, blank=True)
 
     def __str__(self):
-        return self._toString().encode('utf-8')
-
-    def _toString(self):
         return ' Department Report : ' + str(self.department.department_name) + ' (' + str(self.submission_time) + ')'
 
     class Meta:
@@ -483,9 +471,6 @@ class MeasurementExportFile(models.Model):
     elapsedTime = models.TextField(verbose_name="Elapsed Time", default='')
 
     def __str__(self):
-        return self._toString().encode('utf-8')
-
-    def _toString(self):
         return ' Measurement Export File : ' + str(
             self.semester.semester_academic_year.academic_year_name) + '--' + str(
             self.semester.semester_name) + ' (' + str(self.submission_time) + ')'

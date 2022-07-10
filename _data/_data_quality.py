@@ -158,10 +158,8 @@ class Course_CFI(models.Model):
 
     # ---------------------------------------------------------------------------------------------------
 
-    def __str__(self):
-        return self._toString().encode('utf-8')
 
-    def _toString(self):
+    def __str__(self):
         return ' CFI File Index for section ' + str(self.gradeFile.section_code) + ' (' + str(
             self.submission_time) + ')'
 
@@ -341,9 +339,6 @@ class QualityExportFile(models.Model):
                                        max_length=1024)
 
     def __str__(self):
-        return self._toString().encode('utf-8')
-
-    def _toString(self):
         return ' Quality Export File : ' + str(
             self.semester.semester_academic_year.academic_year_name) + '--' + str(
             self.semester.semester_name) + ' (' + str(self.submission_time) + ')'

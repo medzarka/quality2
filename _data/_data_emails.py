@@ -21,9 +21,6 @@ class email(models.Model):
     email_is_sent = models.BooleanField(default=False, verbose_name="Email Sent ?")
 
     def __str__(self):
-        return self._toString().encode('utf-8')
-
-    def _toString(self):
         return f'{self.email_sender} to - {self.email_receiver}- at {self.sending_time}'
 
     def send(self):
@@ -55,8 +52,6 @@ class email(models.Model):
                 return f'Email not sent due to a SMTP error.'
         else:
             return f'The receiver has no email address !'
-
-
 
     def getMessageRended(self):
         res = ''
