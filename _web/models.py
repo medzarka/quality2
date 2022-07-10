@@ -75,9 +75,9 @@ class footer(models.Model):
                                    null=True)
     footer_version = models.CharField(max_length=250, unique=True, verbose_name='Footer Version', blank=False,
                                       null=False)
-    footer_address_en = models.CharField(max_length=1024, unique=True, verbose_name='Footer Address', blank=False,
+    footer_address_en = models.CharField(max_length=255, unique=True, verbose_name='Footer Address', blank=False,
                                          null=False)
-    footer_address_ar = models.CharField(max_length=1024, unique=True, verbose_name='Footer Arab Address', blank=False,
+    footer_address_ar = models.CharField(max_length=255, unique=True, verbose_name='Footer Arab Address', blank=False,
                                          null=False)
     footer_logo = models.ImageField(upload_to='media/site/images/')
 
