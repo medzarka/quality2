@@ -82,6 +82,7 @@ class Semester(models.Model):
             return True
         return False
 
+
     def __str__(self):
         # _start = self.semester_date_start.strftime("%A %d. %B %Y")
         # _end = self.semester_date_end.strftime("%A %d. %B %Y")
