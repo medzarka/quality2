@@ -39,7 +39,7 @@ class Department(models.Model):
         return self._toString().encode('utf-8')
 
     def _toString(self):
-        return self.department_name
+        return f'{self.department_name}'
 
     class Meta:
         ordering = ['department_name', ]
