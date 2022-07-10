@@ -37,6 +37,7 @@ class _dashboard(Abstract_UI_Page):
 
         _rows = []
 
+
         for _meeting in _my_meetings:
             _row = table_row(row_class=UI_Row_Cell_Class_Enum.TABLE_LIGHT)
 
