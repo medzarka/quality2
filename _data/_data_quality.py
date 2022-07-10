@@ -69,7 +69,7 @@ def get_upload_file_name(instance, filename):
     _tmp += f'{instance.gradeFile.semester.semester_name}/'
     _tmp += f'{instance.gradeFile.section_department}/'
     _tmp += f'{instance.gradeFile.teacher.last_name}/'
-    _tmp += f'{instance.gradeFile.course_name}/'
+    _tmp += f'{instance.gradeFile.section_courseObj.course_code}___{instance.gradeFile.section_courseObj.course_name}/'
     _tmp += f'{instance.gradeFile.section_code}/{filename}'
     return _tmp
 
