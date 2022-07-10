@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import smtplib
 from datetime import datetime
+from django.utils.encoding import force_str
 
 import logging
 
@@ -21,7 +22,7 @@ class email(models.Model):
     email_is_sent = models.BooleanField(default=False, verbose_name="Email Sent ?")
 
     def __str__(self):
-        return f'{self.email_sender} to - {self.email_receiver}- at {self.sending_time}'
+        return force_str(f'{self.email_sender} to - {self.email_receiver}- at {self.sending_time}')
 
     def send(self):
         print('Sending email through SMTP.')

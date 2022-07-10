@@ -3,6 +3,8 @@ from enum import unique, Enum
 from django.db import models
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
+from django.utils.encoding import force_str
+
 from _control._Measurement.Measurement_FS import Quality_FS
 from _data._data_periods import Semester
 
@@ -160,8 +162,8 @@ class Course_CFI(models.Model):
 
 
     def __str__(self):
-        return ' CFI File Index for section ' + str(self.gradeFile.section_code) + ' (' + str(
-            self.submission_time) + ')'
+        return force_str(' CFI File Index for section ' + str(self.gradeFile.section_code) + ' (' + str(
+            self.submission_time) + ')')
 
     def campus(self):
         return f'[{self.gradeFile.campus_name}'
@@ -339,9 +341,9 @@ class QualityExportFile(models.Model):
                                        max_length=1024)
 
     def __str__(self):
-        return ' Quality Export File : ' + str(
+        return force_str(' Quality Export File : ' + str(
             self.semester.semester_academic_year.academic_year_name) + '--' + str(
-            self.semester.semester_name) + ' (' + str(self.submission_time) + ')'
+            self.semester.semester_name) + ' (' + str(self.submission_time) + ')')
 
     class Meta:
         ordering = ['semester', 'submission_time', 'state']

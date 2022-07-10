@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.db import models
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User
+from django.utils.encoding import force_str
 
 #########################################################################################################
 from _control._Measurement.Measurement_FS import Measurement_FS
@@ -36,7 +37,7 @@ class Department(models.Model):
     department_name = models.CharField(max_length=250, verbose_name="Department Name", null=True, blank=True)
 
     def __str__(self):
-        return self.department_name
+        return force_str(self.department_name)
 
     class Meta:
         ordering = ['department_name', ]
@@ -131,7 +132,7 @@ class GradesFile(models.Model):
     section_courseObj = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return ' Grades File for section ' + str(self.section_code) + ' (' + str(self.submission_time) + ')'
+        return force_str(' Grades File for section ' + str(self.section_code) + ' (' + str(self.submission_time) + ')')
 
     def getCourseFullName(self):
         return f'[{self.course_code}] ---  {self.course_name}'
@@ -311,7 +312,7 @@ class CourseFile(models.Model):
     version = models.IntegerField(verbose_name="Version", default=0)
 
     def __str__(self):
-        return ' Report for the course ' + str(self.course_name) + ' (' + str(self.submission_time) + ')'
+        return force_str(' Report for the course ' + str(self.course_name) + ' (' + str(self.submission_time) + ')')
 
     def getCourseFullName(self):
         return f'[{self.course_code}] ---  {self.course_name}'
@@ -426,7 +427,7 @@ class DepartmentFile(models.Model):
     means_high = models.TextField(verbose_name="means_high", null=True, blank=True)
 
     def __str__(self):
-        return ' Department Report : ' + str(self.department.department_name) + ' (' + str(self.submission_time) + ')'
+        return force_str(' Department Report : ' + str(self.department.department_name) + ' (' + str(self.submission_time) + ')')
 
     class Meta:
         ordering = ['semester', 'department']
@@ -471,9 +472,9 @@ class MeasurementExportFile(models.Model):
     elapsedTime = models.TextField(verbose_name="Elapsed Time", default='')
 
     def __str__(self):
-        return ' Measurement Export File : ' + str(
+        return force_str(' Measurement Export File : ' + str(
             self.semester.semester_academic_year.academic_year_name) + '--' + str(
-            self.semester.semester_name) + ' (' + str(self.submission_time) + ')'
+            self.semester.semester_name) + ' (' + str(self.submission_time) + ')')
 
     class Meta:
         ordering = ['semester', 'submission_time', 'state']

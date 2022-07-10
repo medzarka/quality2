@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils.encoding import force_str
 
 #########################################################################################################
 class Specialization(models.Model):
@@ -9,7 +9,7 @@ class Specialization(models.Model):
     specialization_name_ar = models.CharField(max_length=255, verbose_name="Program Arabic Name")
 
     def __str__(self):
-        return ' [Specialization = ' + self.specialization_name + ']'
+        return force_str(' [Specialization = ' + self.specialization_name + ']')
 
     class Meta:
         ordering = ['specialization_code', 'specialization_name']
@@ -34,7 +34,7 @@ class Program(models.Model):
                                        blank=True)
 
     def __str__(self):
-        return str(self.specialization) + '[Program = ' + self.program_name + ' version ' + self.program_version + ']'
+        return force_str(str(self.specialization) + '[Program = ' + self.program_name + ' version ' + self.program_version + ']')
 
     class Meta:
         ordering = ['specialization', 'program_code', 'program_name', 'program_version']
@@ -63,8 +63,8 @@ class Course(models.Model):
                                 blank=True)
 
     def __str__(self):
-        return str(self.program) + ' Course : ' + self.course_code + ' --- ' \
-               + self.course_name + '--- (' + self.course_code_ar + ' - ' + self.course_name_ar + ')'
+        return force_str(str(self.program) + ' Course : ' + self.course_code + ' --- ' \
+               + self.course_name + '--- (' + self.course_code_ar + ' - ' + self.course_name_ar + ')')
 
     class Meta:
         ordering = ['program', 'course_code', ]

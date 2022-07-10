@@ -1,6 +1,7 @@
 from django.db import models
 
 from datetime import date
+from django.utils.encoding import force_str
 
 
 ####################################################################################################################
@@ -27,7 +28,7 @@ class AcademicYear(models.Model):
         # _start = self.academic_year_date_start.strftime("%Y")
         # _end = self.academic_year_date_end.strftime("%Y")
         # return _start + '--' + _end
-        return self.academic_year_name
+        return force_str(self.academic_year_name)
 
     class Meta:
         ordering = ['academic_year_date_start']
@@ -82,7 +83,7 @@ class Semester(models.Model):
     def __str__(self):
         # _start = self.semester_date_start.strftime("%A %d. %B %Y")
         # _end = self.semester_date_end.strftime("%A %d. %B %Y")
-        return self.semester_academic_year.academic_year_name + '__' + self.semester_name
+        return force_str(self.semester_academic_year.academic_year_name + '__' + self.semester_name)
 
     class Meta:
         ordering = ['semester_academic_year', 'semester_date_start', ]
