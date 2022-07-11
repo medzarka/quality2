@@ -2,6 +2,7 @@ import os
 import shutil
 import statistics
 import random
+import logging
 import string
 import zipfile
 from io import StringIO  ## for Python 3
@@ -59,6 +60,7 @@ logger = logging.getLogger('db')
 def change_semester(request):
     semester_id = request.POST['semester']
     request.session['selected_semester'] = int(semester_id)
+    logger.debug('[_WEB VIEW] change semester call.')
     return redirect(reverse('dashboard'))
 
 
@@ -106,60 +108,70 @@ def reset_password(request):
 @login_required
 def dashboard(request):
     __page = _dashboard(request, 'dashboard')
+    logger.debug('[_WEB VIEW] dashboard call.')
     return render(request, "base.html", __page.getContext())
 
 
 @login_required
 def measurement_section_reports(request):
     __page = _page_generate_section_reports(request, 'measurement_section_reports')
+    logger.debug('[_WEB VIEW] measurement section report call.')
     return render(request, "base.html", __page.getContext())
 
 
 @login_required
 def measurement_course_reports(request):
     __page = _page_generate_course_reports(request, 'measurement_course_reports')
+    logger.debug('[_WEB VIEW] measurement course report call.')
     return render(request, "base.html", __page.getContext())
 
 
 @login_required
 def measurement_section_reports_admin(request):
     __page = _measurement_section_reports_admin(request, 'measurement_section_reports_admin')
+    logger.debug('[_WEB VIEW] measurement section reports admin call.')
     return render(request, "base.html", __page.getContext())
 
 
 @login_required
 def measurement_course_reports_admin(request):
     __page = _measurement_course_reports_admin(request, 'measurement_course_reports_admin')
+    logger.debug('[_WEB VIEW] measurement course report call.')
     return render(request, "base.html", __page.getContext())
 
 
 @login_required
 def measurement_department_reports(request):
     __page = _page_generate_department_reports(request, 'measurement_department_reports')
+    logger.debug('[_WEB VIEW] measurement department report call.')
     return render(request, "base.html", __page.getContext())
 
 
 @login_required
 def measurement__reviewers(request):
-    __page = _page_measuerement_reviewers(request, 'measurement__reviewers')
+    __page = _page_measuerement_reviewers(request, 'measurement__reviewers'
+    logger.debug('[_WEB VIEW] measurement reviewers management call.')
     return render(request, "base.html", __page.getContext())
 
 
 @login_required
 def measurement_export(request):
-    __page = _page_measuerement_export(request, 'measurement_export')
+    __page = _page_measuerement_export(request, 'measurement_export'
+    logger.debug('[_WEB VIEW] measurement dashboard call.')
     return render(request, "base.html", __page.getContext())
 
 
 @login_required
 def quality_cfi_reports(request):
     __page = _page_mycfis(request, 'quality_mycfis')
+    logger.debug('[_WEB VIEW] quality faculty reports call.')
     return render(request, "base.html", __page.getContext())
 
 
 @login_required
 def quality_mycfis_admin(request):
     __page = _page_mycfis_admin(request=request, link='quality_mycfis_admin')
+    logger.debug('[_WEB VIEW] quality reports reviewing call.')
     return render(request, "base.html", __page.getContext())
 
 
@@ -172,6 +184,7 @@ def quality_mycfis_reviewers(request):
 @login_required
 def quality_export(request):
     __page = _page_quality_export(request=request, link='quality_export')
+    logger.debug('[_WEB VIEW] quality dashboard call.')
     return render(request, "base.html", __page.getContext())
 
 
