@@ -149,14 +149,14 @@ def measurement_department_reports(request):
 
 @login_required
 def measurement__reviewers(request):
-    __page = _page_measuerement_reviewers(request, 'measurement__reviewers'
+    __page = _page_measuerement_reviewers(request, 'measurement__reviewers')
     logger.debug('[_WEB VIEW] measurement reviewers management call.')
     return render(request, "base.html", __page.getContext())
 
 
 @login_required
 def measurement_export(request):
-    __page = _page_measuerement_export(request, 'measurement_export'
+    __page = _page_measuerement_export(request, 'measurement_export')
     logger.debug('[_WEB VIEW] measurement dashboard call.')
     return render(request, "base.html", __page.getContext())
 
