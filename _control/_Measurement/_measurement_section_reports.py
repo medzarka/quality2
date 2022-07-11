@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
+import logging
 
 from _data._data_measurement import MeasurementReviewerAffectations
 
@@ -20,6 +21,7 @@ class _page_generate_section_reports(Abstract_UI_Page):
     def __init__(self, request, link):
         super().__init__(page_title='Measurement :: Generate Measurement Section Reports', link=link,
                          request_obj=request)
+        self.logger = logging.getLogger('db')
 
     def CreateBlocks(self, _blocks_list=None):
         _actual_semester = Semester.objects.get(semester_id=self.request_obj.session['selected_semester'])
@@ -30,12 +32,16 @@ class _page_generate_section_reports(Abstract_UI_Page):
 
         ###################################################################################
         ###################################################################################
-        #################   STEP 3 - Generate and submit the report
+        #################   STEP 3 - Generate and submit the
+
         if self.request_obj.method == 'POST' and 'Analysis' in self.request_obj.POST and 'id' in self.request_obj.POST:
+            self.logger.debug('[MEASUREMENT - SECTION - REPORT] - updating the analysis of a new grade file')
+
 
             _report = ui_basic_block(block_title='Measurement Section Report')
             _analysis = self.request_obj.POST['Analysis']
             _id = int(self.request_obj.POST['id'])
+            self.logger.debug(f'[MEASUREMENT - SECTION - REPORT] - The grade file id is {_id}.')
 
             try:
                 _course_report = GradesFile.objects.get(grades_file_id=_id)
@@ -70,14 +76,16 @@ class _page_generate_section_reports(Abstract_UI_Page):
                         color=UI_TEXT_COLOR_Enum.TEXT_SUCCESS,
                         heading=UI_TEXT_HEADING_Enum.H5, link_url=_course_report.report_file.url)
                     _report.addBasicElement(_h1)
+                    self.logger.info(f'[MEASUREMENT - SECTION - REPORT] - The grade file id is {_id} is well updated with the given analysis.')
 
                 else:
                     _h1 = ui_text_element(
-                        text='An error is occured when creating the report.',
+                        text='An error is occurred when creating the report.',
                         alignment=UI_TEXT_ALIGNMENT_Enum.LEFT,
                         color=UI_TEXT_COLOR_Enum.TEXT_DANGER,
                         heading=UI_TEXT_HEADING_Enum.H4)
                     _report.addBasicElement(_h1)
+                    self.logger.error(f'[MEASUREMENT - SECTION - REPORT] - The grade file id is {_id} is not well updated for its analysis.')
 
 
             except Exception as e:
@@ -87,7 +95,8 @@ class _page_generate_section_reports(Abstract_UI_Page):
                     color=UI_TEXT_COLOR_Enum.TEXT_DANGER,
                     heading=UI_TEXT_HEADING_Enum.H4)
                 _report.addBasicElement(_h1)
-
+                self.logger.error(f'[MEASUREMENT - SECTION - REPORT] - The grade file id is {_id} has an error.')
+                self.logger.exception(e)
             res.append(_report)
 
             _course_report = GradesFile.objects.get(grades_file_id=_id)
@@ -114,9 +123,11 @@ class _page_generate_section_reports(Abstract_UI_Page):
 
         ###################################################################################
         ###################################################################################
-        #################   STEP 2 - Statistics Display/Edit
+        #################   STEP 2 - Statistics Display/
+
         if (self.request_obj.method == 'POST' and 'gradesfile' in self.request_obj.FILES.keys()) or (
                 self.request_obj.method == 'GET' and 'editmode' in self.request_obj.GET.keys()):
+            self.logger.debug(f'[MEASUREMENT - SECTION - REPORT] - displaying the statistics of a grade file.')
 
             _extraction_result = False
             __edit_mode = False
@@ -126,6 +137,8 @@ class _page_generate_section_reports(Abstract_UI_Page):
             if 'editmode' in self.request_obj.GET.keys():
                 _mode = int(self.request_obj.GET['editmode'])
                 __doc_ID = int(self.request_obj.GET['id'])
+                self.logger.debug(
+                    f'[MEASUREMENT - SECTION - REPORT] - displaying the statistics for the grade file with id={__doc_ID}.')
                 if _mode == 0:
                     __edit_mode = True
                 else:
@@ -134,6 +147,7 @@ class _page_generate_section_reports(Abstract_UI_Page):
                 __add_mode = True
                 __meeting_id = int(self.request_obj.POST['meeting_id'])
                 _meeting_obj = Meeting.objects.get(meeting_id=__meeting_id)
+                self.logger.debug(f'[MEASUREMENT - SECTION - REPORT] - creating a new grade file for the meeting {str(_meeting_obj)}.')
 
             ########################################## Alerts
             _ui_basic_block = ui_basic_block(block_title='')
@@ -144,13 +158,18 @@ class _page_generate_section_reports(Abstract_UI_Page):
                 _extraction_result = _measurement.extract_data()
 
                 for text in _measurement.info:
+                    self.logger.debug(
+                        f'[MEASUREMENT - SECTION - REPORT] - Debug messages from the "Section_Measurment class" :: {text}.')
                     _text = ui_text_element(
                         text=text,
                         alignment=UI_TEXT_ALIGNMENT_Enum.JUSTIFY,
                         color=UI_TEXT_COLOR_Enum.TEXT_DARK,
                         background=UI_TEXT_BG_Enum.NONE, alert=UI_Text_Alert_Type.ALERT_SUCCESS)
                     _ui_basic_block.addBasicElement(_text)
+
                 for text in _measurement.errors:
+                    self.logger.error(
+                        f'[MEASUREMENT - SECTION - REPORT] - Error messages from the "Section_Measurment class" :: {text}.')
                     _text = ui_text_element(
                         text=text,
                         alignment=UI_TEXT_ALIGNMENT_Enum.JUSTIFY,
@@ -158,6 +177,8 @@ class _page_generate_section_reports(Abstract_UI_Page):
                         background=UI_TEXT_BG_Enum.NONE, alert=UI_Text_Alert_Type.ALERT_DANGER)
                     _ui_basic_block.addBasicElement(_text)
                 for text in _measurement.warning:
+                    self.logger.warning(
+                        f'[MEASUREMENT - SECTION - REPORT] - Warn messages from the "Section_Measurment class" :: {text}.')
                     _text = ui_text_element(
                         text=text,
                         alignment=UI_TEXT_ALIGNMENT_Enum.JUSTIFY,
@@ -181,6 +202,8 @@ class _page_generate_section_reports(Abstract_UI_Page):
                         GradesFile_obj.section_code = _meeting_obj.section
                         GradesFile_obj.section_meetingObj = _meeting_obj
                         GradesFile_obj.save()
+                        self.logger.debug(
+                            f'[MEASUREMENT - SECTION - REPORT] - The grade file for with id {GradesFile_obj.grades_file_id} is well created and saved.')
 
                 if __edit_mode or __readonly_mode:
                     GradesFile_obj = GradesFile.objects.get(grades_file_id=__doc_ID)
@@ -194,6 +217,8 @@ class _page_generate_section_reports(Abstract_UI_Page):
                         color=UI_TEXT_COLOR_Enum.TEXT_WARNING,
                         background=UI_TEXT_BG_Enum.NONE, alert=UI_Text_Alert_Type.ALERT_DANGER)
                     _stats.addBasicElement(_text)
+                    self.logger.error(
+                        f'[MEASUREMENT - SECTION - REPORT] - Internal Error. The report model is not found or could not be saved.')
 
                 else:
                     if GradesFile_obj.report_state == ReportState.ACCEPTED.value and not __readonly_mode:
@@ -394,16 +419,21 @@ class _page_generate_section_reports(Abstract_UI_Page):
         ###################################################################################
         ###################################################################################
         #################   STEP 1 - Submission Page
+
+        self.logger.debug('[MEASUREMENT - SECTION - REPORT] - Displaying the list of the user grade files')
         if (self.request_obj.method == 'GET' and 'editmode' not in self.request_obj.GET.keys()) or (
                 self.request_obj.method == 'POST' and 'submission_id' in self.request_obj.POST.keys()):
+            self.logger.debug('[MEASUREMENT - SECTION - REPORT] - Displaying the list of the user grade files')
 
             if 'submission_id' in self.request_obj.POST.keys() and self.request_obj.POST['submission_id']:
                 print('Updating the report with ID = ' + self.request_obj.POST['submission_id'])
+                self.logger.debug(f'[MEASUREMENT - SECTION - REPORT] - Updating the report with ID = {self.request_obj.POST["submission_id"]}')
                 _id = int(self.request_obj.POST['submission_id'])
                 _course_report = GradesFile.objects.get(grades_file_id=_id)
                 _course_report.report_state = ReportState.SUBMITTED.value
                 _course_report.save()
-                print('Report Updated')
+                self.logger.debug(
+                    f'[MEASUREMENT - SECTION - REPORT] - Report updated with ID = {self.request_obj.POST["submission_id"]}')
 
             if 'action' in self.request_obj.GET.keys() and 'id' in self.request_obj.GET.keys():
                 try:
@@ -417,10 +447,15 @@ class _page_generate_section_reports(Abstract_UI_Page):
                         except:
                             _reviewer_email = ''
                         _report.submit(update=True, reviewer_email=_reviewer_email, semester=_actual_semester)
+                        self.logger.debug(
+                            f'[MEASUREMENT - SECTION - REPORT] - Report with ID = {_id} is submitted.')
                     if _action == 'delete':
                         _report.end()
+                        self.logger.debug(
+                            f'[MEASUREMENT - SECTION - REPORT] - Report with ID = {_id} is deleted.')
                 except GradesFile.DoesNotExist:
-                    pass
+                    self.logger.error(
+                        f'[MEASUREMENT - SECTION - REPORT] - Report with ID = {_id} is not found.')
 
             _list = GradesFile.objects.filter(teacher=_actual_user, semester=_actual_semester)
             print('nbr of reports == ' + str(len(_list)))
@@ -626,6 +661,7 @@ class _page_generate_section_reports(Abstract_UI_Page):
 
             ########################################################################################
             ############################################  File Upload form
+            self.logger.debug('[MEASUREMENT - SECTION - REPORT] - Displaying the file upload form')
             _ui_form_block = ui_form_block(block_title='Submit the Grades Excel File for a given Section',
                                            form_action=self.link, form_id='test', form_method='POST')
 
