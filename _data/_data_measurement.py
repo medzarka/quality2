@@ -37,7 +37,7 @@ class Department(models.Model):
     department_name = models.CharField(max_length=250, verbose_name="Department Name", null=True, blank=True)
 
     def __str__(self):
-        return force_str(self.department_name)
+        return self.department_name
 
     class Meta:
         ordering = ['department_name', ]
@@ -53,6 +53,7 @@ def get_sections_grades_upload_file_name(instance, filename):
     _tmp = f'{Measurement_FS.GRADES.value}'
     _tmp += f'{instance.semester.semester_academic_year.academic_year_name}/'
     _tmp += f'{instance.semester.semester_name}/'
+    _tmp += f'{instance.section_department}/grades/'
     _tmp += f'{instance.section_code}/grades_{instance.section_code}.xlsx'
     return _tmp
 
@@ -62,7 +63,7 @@ def get_sections_reports_upload_file_name(instance, filename):
     _tmp += f'{instance.semester.semester_academic_year.academic_year_name}/'
     _tmp += f'{instance.semester.semester_name}/'
     _tmp += f'{instance.section_department}/sections/'
-    _tmp += f'{instance.section_code}/sec_{instance.section_code}.docx'
+    _tmp += f'{instance.section_code}/section_{instance.section_code}.docx'
     return _tmp
 
 
@@ -71,7 +72,7 @@ def get_courses_reports_upload_file_name(instance, filename):
     _tmp += f'{instance.semester.semester_academic_year.academic_year_name}/'
     _tmp += f'{instance.semester.semester_name}/'
     _tmp += f'{instance.course_department}/courses/'
-    _tmp += f'{instance.course_name}/{instance.course_name}.docx'
+    _tmp += f'{instance.course_name}/course_{instance.course_name}.docx'
     return _tmp
 
 
@@ -427,7 +428,8 @@ class DepartmentFile(models.Model):
     means_high = models.TextField(verbose_name="means_high", null=True, blank=True)
 
     def __str__(self):
-        return force_str(' Department Report : ' + str(self.department.department_name) + ' (' + str(self.submission_time) + ')')
+        return force_str(
+            ' Department Report : ' + str(self.department.department_name) + ' (' + str(self.submission_time) + ')')
 
     class Meta:
         ordering = ['semester', 'department']

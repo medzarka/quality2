@@ -458,6 +458,7 @@ def update_gradefiles_grades_pathnames(request):
                                      File(open(f.name, "rb")), save=True)
             _report.save()
             os.unlink(f.name)
+            os.unlink(_orginal_grades_filename)
             logger.debug(
                 f'[update_gradefiles_grades_pathnames] ## The grade file is moved from {_orginal_grades_filename} to {_report.report_file.path}')
 
