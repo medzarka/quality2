@@ -22,12 +22,14 @@ class _page_generate_section_reports(Abstract_UI_Page):
         super().__init__(page_title='Measurement :: Generate Measurement Section Reports', link=link,
                          request_obj=request)
         self.logger = logging.getLogger('db')
+        self.logger.debug(f'[MEASUREMENT - SECTION - REPORT] page initialized.')
 
     def CreateBlocks(self, _blocks_list=None):
+        self.logger.debug(f'[MEASUREMENT - SECTION - REPORT] start CreatBlock method.')
         _actual_semester = Semester.objects.get(semester_id=self.request_obj.session['selected_semester'])
-        self.logger.warning(f'Semester used is {_actual_semester}')
+        self.logger.debug(f'[MEASUREMENT - SECTION - REPORT] Semester used is {_actual_semester}')
         _actual_user = User.objects.get(id=self.request_obj.user.id)
-        self.logger.warning(f'User connected is {_actual_user}')
+        self.logger.debug(f'[MEASUREMENT - SECTION - REPORT] User connected is {_actual_user.last_name}')
         res = []
 
         ###################################################################################
@@ -708,4 +710,5 @@ class _page_generate_section_reports(Abstract_UI_Page):
                 _report.addBasicElement(_h1)
                 res.append(_report)
 
+        self.logger.debug(f'[MEASUREMENT - SECTION - REPORT] end CreatBlock method.')
         return res
