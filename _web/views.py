@@ -53,7 +53,6 @@ from io import BytesIO
 
 import logging
 
-
 logger = logging.getLogger('db')
 
 
@@ -437,7 +436,6 @@ def generate_department_excel_list(request):
         return render(request, "base.html", __page.getContext())
 
 
-
 def update_gradefiles_grades_pathnames(request):
     if 'selected_semester' in request.POST.keys() and 'selected_action' in request.POST.keys():
         _selected_semester = Semester.objects.get(
@@ -450,20 +448,22 @@ def update_gradefiles_grades_pathnames(request):
                 f'[update_gradefiles_grades_pathnames] ## Step 1 :: Update the grade file path for id={_report.grades_file_id}.')
             _orginal_grades_filename = _report.grades_file.path
 
-            f = tempfile.NamedTemporaryFile(mode='wb',suffix='updated_grade_file__', prefix=f'grades_for_section_{_report.course_code}', delete=False)
+            f = tempfile.NamedTemporaryFile(mode='wb', suffix='updated_grade_file__',
+                                            prefix=f'grades_for_section_{_report.course_code}', delete=False)
             shutil.copy(_orginal_grades_filename, f.name)
             f.close()
             logger.debug(
                 f'[update_gradefiles_grades_pathnames] ## Grade file copied from {_orginal_grades_filename} to {f.name}.')
-            _report.report_file.save(os.path.basename(f.name),
+            _report.grades_file.save(os.path.basename(f.name),
                                      File(open(f.name, "rb")), save=True)
             _report.save()
             os.unlink(f.name)
             logger.debug(
                 f'[update_gradefiles_grades_pathnames] ## The grade file is moved from {_orginal_grades_filename} to {_report.report_file.path}')
 
-    __page = _dashboard(request, 'dashboard')
+    __page = _dashboard(request, 'measurement_export')
     return render(request, "base.html", __page.getContext())
+
 
 def generate_grades_excel_list(request):
     if 'selected_semester' in request.POST.keys() and 'selected_action' in request.POST.keys():
@@ -578,7 +578,7 @@ def generate_zipped_quality_reports_list(request):
 
 def __gen_500_errors(request):
     try:
-        1/0
+        1 / 0
     except Exception as e:
         logger.exception(e)
 
