@@ -442,14 +442,23 @@ def update_gradefiles_grades_pathnames(request):
     if 'selected_semester' in request.POST.keys() and 'selected_action' in request.POST.keys():
         _selected_semester = Semester.objects.get(
             semester_id=int(request.POST['selected_semester']))
+
+        import tempfile
+        import shutil
         for _report in GradesFile.objects.filter(semester=_selected_semester):
             logger.debug(
                 f'[update_gradefiles_grades_pathnames] ## Step 1 :: Update the grade file path for id={_report.grades_file_id}.')
             _orginal_grades_filename = _report.grades_file.path
-            logger.debug(f'[update_gradefiles_grades_pathnames] ## The grade file location is {_orginal_grades_filename}')
-            _report.report_file.save(os.path.basename(_orginal_grades_filename),
-                                     File(open(_orginal_grades_filename, "wb")), save=True)
+
+            f = tempfile.NamedTemporaryFile(mode='wb',suffix='updated_grade_file__', prefix=f'grades_for_section_{_report.course_code}', delete=False)
+            shutil.copy(_orginal_grades_filename, f.name)
+            f.close()
+            logger.debug(
+                f'[update_gradefiles_grades_pathnames] ## Grade file copied from {_orginal_grades_filename} to {f.name}.')
+            _report.report_file.save(os.path.basename(f.name),
+                                     File(open(f.name, "rb")), save=True)
             _report.save()
+            os.unlink(f.name)
             logger.debug(
                 f'[update_gradefiles_grades_pathnames] ## The grade file is moved from {_orginal_grades_filename} to {_report.report_file.path}')
 
