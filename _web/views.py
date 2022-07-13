@@ -469,6 +469,7 @@ def generate_grades_excel_list(request):
         for _report in GradesFile.objects.filter(semester=_selected_semester):
             logger.debug(f'[generate_grades_excel_list] ## Step 1 :: Update the grade file path for id={_report.grades_file_id}.')
             _orginal_grades_filename = _report.grades_file.path
+            logger.debug(f'[generate_grades_excel_list] ## The grade file location is {_orginal_grades_filename}')
             _report.report_file.save(os.path.basename(_orginal_grades_filename), File(open(_orginal_grades_filename ,"wb")), save=True)
             _report.save()
             logger.debug(f'[generate_grades_excel_list] ## The grade file is moved from {_orginal_grades_filename} to {_report.report_file.path}')
