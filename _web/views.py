@@ -433,7 +433,7 @@ def generate_department_excel_list(request):
         return response
 
     else:
-        __page = _dashboard(request, 'dashboard')
+        __page = _dashboard(request, 'measurement_export')
         return render(request, "base.html", __page.getContext())
 
 
@@ -462,6 +462,8 @@ def update_gradefiles_grades_pathnames(request):
             logger.debug(
                 f'[update_gradefiles_grades_pathnames] ## The grade file is moved from {_orginal_grades_filename} to {_report.report_file.path}')
 
+    __page = _dashboard(request, 'dashboard')
+    return render(request, "base.html", __page.getContext())
 
 def generate_grades_excel_list(request):
     if 'selected_semester' in request.POST.keys() and 'selected_action' in request.POST.keys():
