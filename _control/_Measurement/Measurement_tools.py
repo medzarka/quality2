@@ -227,7 +227,6 @@ class Section_Measurment:
                 self.logger.debug(f'[Measurement Tools] In method generate_report, the grade file object updated')
                 return True
             except Exception as e:
-                print('Error ' + str(e))
                 self.logger.error(f'[Measurement Tools] In method generate_report, error occurred in updating the grace file.')
                 self.logger.exception(e)
                 return False
