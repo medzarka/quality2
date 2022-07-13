@@ -520,6 +520,25 @@ class _page_measuerement_export(Abstract_UI_Page):
             _ui_form_block.addFormField(_selected_action)
             _ui_form_block.addFormField(_submit_field)
             res.append(_ui_form_block)
+
+            #################################################################################################
+            #################################################################################################
+            _ui_form_block = ui_form_block(block_title='Update gradefiles pathes',
+                                           form_action='update_gradefiles_grades_pathnames', form_id='test',
+                                           form_method='POST')
+
+            _selected_semester = form_field(input_label='', input_name='selected_semester',
+                                            input_value=str(_actual_semester.semester_id),
+                                            input_type=FormInputTypeEnum.HIDDEN_INPUT)
+
+            _submit_field = form_field('Update gradefiles pathes', 'Update gradefiles pathes',
+                                       input_type=FormInputTypeEnum.SUBMIT_INPUT,
+                                       button_class=ButtonClassEnum.BTN_SECONDARY)
+
+            _ui_form_block.addFormField(_selected_semester)
+            _ui_form_block.addFormField(_selected_action)
+            _ui_form_block.addFormField(_submit_field)
+            res.append(_ui_form_block)
             #################################################################################################
             #################################################################################################
             #################################################################################################

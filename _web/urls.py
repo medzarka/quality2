@@ -44,6 +44,10 @@ urlpatterns = [
          name='generate_course_report_list'),
     path('generate_department_excel_list/', views.generate_department_excel_list,
          name='generate_department_excel_list'),
+    path('update_gradefiles_grades_pathnames/', views.update_gradefiles_grades_pathnames,
+         name='update_gradefiles_grades_pathnames'),
+
+
 
     ##########################################
     ##########################################
