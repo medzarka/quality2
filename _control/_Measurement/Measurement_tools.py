@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 import os
 import xlrd as xl
 import statistics
+import logging
 
 from django.core.files import File
 from django.conf import settings
@@ -73,6 +74,8 @@ class Section_Measurment:
         self.max = 9999.9999
 
         self.dataloaded = False
+
+        self.logger = logging.getLogger('db')
 
     def getReportObj(self):
 
@@ -193,6 +196,7 @@ class Section_Measurment:
 
     def generate_report(self):
         if self.grades_file_obj is None:
+            self.logger.error(f'[Measurement Tools] In method generate_report, the grade file object id None !!!')
             return False
         else:
             try:
@@ -220,9 +224,12 @@ class Section_Measurment:
                     'section_report_' + str(self.grades_file_obj.section_code) + '.docx',
                     File(open(filename, 'rb')))
                 self.grades_file_obj.save()
+                self.logger.debug(f'[Measurement Tools] In method generate_report, the grade file object updated')
                 return True
             except Exception as e:
                 print('Error ' + str(e))
+                self.logger.error(f'[Measurement Tools] In method generate_report, error occurred in updating the grace file.')
+                self.logger.exception(e)
                 return False
 
     def extractGrades(self):
