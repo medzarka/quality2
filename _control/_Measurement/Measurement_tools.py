@@ -125,7 +125,7 @@ class Section_Measurment:
         finals = []
         totals = []
         try:
-            tmp_file = os.path.join(settings.SITE_DATA_DIR, 'media', Measurement_FS.TMP.value, self.grades_filename.name)
+            tmp_file = os.path.join(settings.SITE_FILES_DIR, 'media', Measurement_FS.TMP.value, self.grades_filename.name)
             os.makedirs(os.path.dirname(tmp_file), exist_ok=True)
             with open(tmp_file, 'wb+') as destination:
                 for chunk in self.grades_filename.chunks():
@@ -201,7 +201,7 @@ class Section_Measurment:
             return False
         else:
             try:
-                filename = os.path.join(settings.SITE_DATA_DIR, 'media', Measurement_FS.TMP.value,
+                filename = os.path.join(settings.SITE_FILES_DIR, 'media', Measurement_FS.TMP.value,
                                         'section_report_' + str(self.grades_file_obj.section_code) + '.docx')
                 _data = {}
                 _data['campus'] = self.grades_file_obj.campus_name
@@ -333,7 +333,7 @@ class Section_Measurment:
         _statistics['max'] = self.statistics_tools.statistics_max(self.grades['totals'])
         _statistics['analysis'] = self.statistics_tools.generate_analysis(_statistics)
 
-        tempfile = os.path.join(settings.SITE_DATA_DIR, 'media', Measurement_FS.TMP.value,
+        tempfile = os.path.join(settings.SITE_FILES_DIR, 'media', Measurement_FS.TMP.value,
                                 'histogram_section_' + str(self.section_code) + '.png')
         os.makedirs(os.path.dirname(tempfile), exist_ok=True)
         if self.statistics_tools.statistics_generate_histogram_section(self.grades['totals'], self.section_code,
@@ -372,7 +372,7 @@ class ____Section_Measurment:
 
     def generate_report(self):
         try:
-            filename = os.path.join(settings.SITE_DATA_DIR, 'media', Measurement_FS.TMP.value,
+            filename = os.path.join(settings.SITE_FILES_DIR, 'media', Measurement_FS.TMP.value,
                                     'section_report_' + str(self.section_code) + '.docx')
             _data = {}
             _data['campus'] = self.grades_file_obj.campus_name
@@ -501,7 +501,7 @@ class ____Section_Measurment:
         _statistics['max'] = self.statistics_tools.statistics_max(self.grades['totals'])
         _statistics['analysis'] = self.statistics_tools.generate_analysis(_statistics)
 
-        tempfile = os.path.join(settings.SITE_DATA_DIR, 'media', Measurement_FS.TMP.value,
+        tempfile = os.path.join(settings.SITE_FILES_DIR, 'media', Measurement_FS.TMP.value,
                                 'histogram_section_' + str(self.section_code) + '.png')
         os.makedirs(os.path.dirname(tempfile), exist_ok=True)
         if self.statistics_tools.statistics_generate_histogram_section(self.grades['totals'], self.section_code,
@@ -514,7 +514,7 @@ class ____Section_Measurment:
 
     def generate_report(self):
         try:
-            filename = os.path.join(settings.SITE_DATA_DIR, 'media', Measurement_FS.TMP.value,
+            filename = os.path.join(settings.SITE_FILES_DIR, 'media', Measurement_FS.TMP.value,
                                     'section_report_' + str(self.section_code) + '.docx')
             _data = {}
             _data['campus'] = self.grades_file_obj.campus_name
@@ -645,9 +645,9 @@ class Department_Measurment:
         if _data is None:
             return None
         else:
-            __template_department_report = os.path.join(settings.SITE_DATA_DIR, 'media', Measurement_FS.TEMPLATES.value,
+            __template_department_report = os.path.join(settings.SITE_FILES_DIR, 'media', Measurement_FS.TEMPLATES.value,
                                                         'department_report_template.docx')
-            filename = os.path.join(settings.SITE_DATA_DIR, 'media', Measurement_FS.TMP.value,
+            filename = os.path.join(settings.SITE_FILES_DIR, 'media', Measurement_FS.TMP.value,
                                     'department_report_' + str(_doc_id) + '.docx')
 
             # Generate the histogram file
@@ -706,7 +706,7 @@ class Course_Measurment:
             return False
         else:
             try:
-                filename = os.path.join(settings.SITE_DATA_DIR, 'media', Measurement_FS.TMP.value,
+                filename = os.path.join(settings.SITE_FILES_DIR, 'media', Measurement_FS.TMP.value,
                                         'course_report_' + str(self.course_file_obj.course_name) + '.docx')
                 _data = {}
                 _data['campus'] = self.course_file_obj.campus_name
@@ -861,7 +861,7 @@ class Course_Measurment:
         _statistics['min'] = self.statistics_tools.statistics_min(self.fused_grades['totals'])
         _statistics['max'] = self.statistics_tools.statistics_max(self.fused_grades['totals'])
         _statistics['analysis'] = self.statistics_tools.generate_analysis(_statistics)
-        tempfile = os.path.join(settings.SITE_DATA_DIR, 'media', Measurement_FS.TMP.value,
+        tempfile = os.path.join(settings.SITE_FILES_DIR, 'media', Measurement_FS.TMP.value,
                                 'histogram_course_' + str(self.course_name) + '.png')
         os.makedirs(os.path.dirname(tempfile), exist_ok=True)
         if self.statistics_tools.statistics_generate_histogram_section(self.fused_grades['totals'], self.course_name,
@@ -1086,7 +1086,7 @@ class MEASUREMENT_Common():
             return None
         else:
             try:
-                _template_section_report = os.path.join(settings.SITE_DATA_DIR, 'media',
+                _template_section_report = os.path.join(settings.SITE_FILES_DIR, 'media',
                                                         Measurement_FS.TEMPLATES.value, 'section_report_template.docx')
                 tpl = DocxTemplate(_template_section_report)
 
@@ -1163,7 +1163,7 @@ class MEASUREMENT_Common():
             return None
         else:
             try:
-                _template_course_report = os.path.join(settings.SITE_DATA_DIR, 'media', Measurement_FS.TEMPLATES.value,
+                _template_course_report = os.path.join(settings.SITE_FILES_DIR, 'media', Measurement_FS.TEMPLATES.value,
                                                        'course_report_template.docx')
                 tpl = DocxTemplate(_template_course_report)
 
@@ -1186,7 +1186,7 @@ class MEASUREMENT_Common():
         if _data is None:
             return None
         else:
-            __template_department_report = os.path.join(settings.SITE_DATA_DIR, 'media', Measurement_FS.TEMPLATES.value,
+            __template_department_report = os.path.join(settings.SITE_FILES_DIR, 'media', Measurement_FS.TEMPLATES.value,
                                                         'department_report_template.docx')
 
             # Generate the histogram file
