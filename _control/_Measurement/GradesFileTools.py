@@ -1,5 +1,8 @@
 import pandas as pd
 import os
+import logging
+import shutil
+import tempfile
 
 
 class GradesFileReader:
@@ -10,6 +13,8 @@ class GradesFileReader:
 
         self.done = 0
         self.msgs = []
+        self.logger = logging.getLogger('db')
+        self.logger.debug(f'[Grades File Tools] logger initialized.')
 
     def read(self):
         '''
@@ -26,30 +31,35 @@ class GradesFileReader:
                 else:
                     self.done = -1
                     self.msgs.append('An error is found in the campus information.')
+                    self.logger.error(f'[Grades File Tools] An error is found in the campus information.')
 
                 if df.iat[1, 0] == 'الدرجة':
                     self.data['level'] = df.iat[1, 1]
                 else:
                     self.done = -1
                     self.msgs.append('An error is found in the educational level information.')
+                    self.logger.error(f'[Grades File Tools] An error is found in the educational level information.')
 
                 if df.iat[2, 0] == 'اسم المقرر':
                     self.data['course'] = df.iat[2, 1]
                 else:
                     self.done = -1
                     self.msgs.append('An error is found in the course name.')
+                    self.logger.error(f'[Grades File Tools] An error is found in the course name.')
 
                 if df.iat[3, 0] == 'النشاط':
                     self.data['activity'] = df.iat[3, 1]
                 else:
                     self.done = -1
                     self.msgs.append('An error is found in the activity information.')
+                    self.logger.error(f'[Grades File Tools] An error is found in the activity information.')
 
                 if df.iat[4, 0] == 'الشعبة':
                     self.data['section'] = df.iat[4, 1]
                 else:
                     self.done = -1
                     self.msgs.append('An error is found in the section information.')
+                    self.logger.error(f'[Grades File Tools] An error is found in the section information.')
 
                 if df.iat[6, 0] == 'رقم الطالب' and df.iat[6, 1] == 'اسم الطالب' and df.iat[6, 2] == 'فصلي (50%)' and \
                         df.iat[6, 3] == 'نهائي (50%)' and \
@@ -73,21 +83,24 @@ class GradesFileReader:
                 else:
                     self.done = -1
                     self.msgs.append('An error is found in the grades information.')
+                    self.logger.error(f'[Grades File Tools] An error is found in the grades information.')
             except IndexError:
                 self.done = -1
                 self.msgs.append('An error is found in the file format.')
+                self.logger.error(f'[Grades File Tools] An error is found in the file format.')
             except ValueError:
                 self.done = -1
                 self.msgs.append(
                     'An error is found in the file format (some data should be numeric, but found strings !).')
+                self.logger.error(f'[Grades File Tools] An error is found in the file format (some data should be numeric, but found strings !).')
         else:
             self.done = -1
             self.msgs.append('The file does not exist or is a folder.')
+            self.logger.error(f'[Grades File Tools] The file does not exist or is a folder.')
 
         print(self.data)
         print(self.done)
         print(self.msgs)
-
 
 if __name__ == "__main__":
     tool = GradesFileReader(r'/home/mzarka/grades.xls')

@@ -10,7 +10,7 @@ from shutil import copyfile
 from shutil import make_archive
 from wsgiref.util import FileWrapper
 from pathlib import Path
-
+from django.core.files.base import File
 from django.contrib.auth.models import User
 from django.contrib import messages
 
@@ -467,6 +467,12 @@ def generate_grades_excel_list(request):
         row_idx = 1
         col = 0
         for _report in GradesFile.objects.filter(semester=_selected_semester):
+            logger.debug(f'[generate_grades_excel_list] ## Step 1 :: Update the grade file path for id={_report.grades_file_id}.')
+            _orginal_grades_filename = _report.grades_file.path
+            _report.report_file.save(os.path.basename(_orginal_grades_filename), File(open(_orginal_grades_filename ,"wb")), save=True)
+            _report.save()
+            logger.debug(f'[generate_grades_excel_list] ## The grade file is moved from {_orginal_grades_filename} to {_report.report_file.path}')
+            logger.debug(f'[generate_grades_excel_list] ## Step 2 :: Reading the grade file data for id={_report.grades_file_id}.')
             _campus = _report.campus_name
             try:
                 _department = _report.section_department.department_name
