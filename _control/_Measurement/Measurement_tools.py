@@ -76,6 +76,7 @@ class Section_Measurment:
         self.dataloaded = False
 
         self.logger = logging.getLogger('db')
+        self.logger(f'[Measurement Tools] In method generate_report, the logger is initialized')
 
     def getReportObj(self):
 
