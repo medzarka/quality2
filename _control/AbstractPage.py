@@ -17,7 +17,7 @@ class Abstract_UI_Page(ABC):
         self.page_title = page_title
         self.request_obj = request_obj
         self.link = link
-        self.logger = logging.getLogger(page_title)
+        self.logger = logging.getLogger('db')
 
         self.context = {}
         self.BasicContext(self.request_obj)  # add basic context

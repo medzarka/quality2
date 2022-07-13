@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
-import logging
+
 
 from _data._data_measurement import MeasurementReviewerAffectations
 
@@ -21,7 +21,6 @@ class _page_generate_section_reports(Abstract_UI_Page):
     def __init__(self, request, link):
         super().__init__(page_title='Measurement :: Generate Measurement Section Reports', link=link,
                          request_obj=request)
-        self.logger = logging.getLogger('db')
         self.logger.debug(f'[MEASUREMENT - SECTION - REPORT] page initialized.')
 
     def CreateBlocks(self, _blocks_list=None):
