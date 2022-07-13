@@ -114,15 +114,17 @@ def dashboard(request):
 
 @login_required
 def measurement_section_reports(request):
-    __page = _page_generate_section_reports(request, 'measurement_section_reports')
     logger.debug('[_WEB VIEW] measurement section report call.')
+    __page = _page_generate_section_reports(request, 'measurement_section_reports')
+    logger.debug('[_WEB VIEW] page for (measurement section report) created.')
     return render(request, "base.html", __page.getContext())
 
 
 @login_required
 def measurement_course_reports(request):
-    __page = _page_generate_course_reports(request, 'measurement_course_reports')
     logger.debug('[_WEB VIEW] measurement course report call.')
+    __page = _page_generate_course_reports(request, 'measurement_course_reports')
+    logger.debug('[_WEB VIEW] page measurement course report created.')
     return render(request, "base.html", __page.getContext())
 
 
