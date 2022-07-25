@@ -42,14 +42,14 @@ class _page_generate_department_reports(Abstract_UI_Page):
             if _report.course_code not in ___courses:
                 ___courses.append(_report.course_name)
 
-        print('Working with department ' + __department_name)
+        self.logger.debug(f'Working with department {__department_name}')
         _means = {}
         _grades = {}
         ___compuses = []
         _nbr_courses = 0
         for _course in ___courses:
 
-            # print('\tWorking with the course ' + _course)
+            self.logger.debug(f'\tWorking with the course {_course}')
             __reports_for_course = GradesFile.objects.filter(semester=semesterObj,
                                                              section_department=departmentObj, course_name=_course)
             for _report in __reports_for_course:
@@ -359,6 +359,7 @@ class _page_generate_department_reports(Abstract_UI_Page):
                         text='error : \t' + str(sys.exc_info()),
                         alignment=UI_TEXT_ALIGNMENT_Enum.JUSTIFY,
                         color=UI_TEXT_COLOR_Enum.TEXT_DANGER))
+                    self.logger.exception(e)
 
                 _list = ui_list_element(_steps, ordered=False)
                 _stats_page.addBasicElement(_list)
