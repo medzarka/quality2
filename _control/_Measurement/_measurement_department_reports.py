@@ -31,7 +31,7 @@ class _page_generate_department_reports(Abstract_UI_Page):
         __department_name = departmentObj.department_name
         __department_id = departmentObj.department_id
 
-        _doc_filename = os.path.join(settings.SITE_DATA_DIR, 'media/', Measurement_FS.REPORTS.value,
+        _doc_filename = os.path.join(settings.SITE_FILES_DIR, 'media/', Measurement_FS.REPORTS.value,
                                      'Department_report_' + str(__department_name) + '.docx')
         self.logger.debug(f'Saving the report file to {_doc_filename} for the department name {__department_name}')
 
