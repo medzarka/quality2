@@ -25,6 +25,7 @@ class _page_generate_department_reports(Abstract_UI_Page):
     def __init__(self, request, link):
         super().__init__(page_title='Measurement :: Department Reports', link=link,
                          request_obj=request)
+        self.logger.debug(f'[MEASUREMENT - DEP - REPORT] page initialized.')
 
     def statWork_dep(self, departmentObj, semesterObj):
         __department_name = departmentObj.department_name
@@ -32,6 +33,7 @@ class _page_generate_department_reports(Abstract_UI_Page):
 
         _doc_filename = os.path.join(settings.SITE_DATA_DIR, 'media/', Measurement_FS.REPORTS.value,
                                      'Department_report_' + str(__department_name) + '.docx')
+        self.logger.debug(f'Saving the report file to {_doc_filename} for the department name {__department_name}')
 
         ___courses = []
         ___files = []
