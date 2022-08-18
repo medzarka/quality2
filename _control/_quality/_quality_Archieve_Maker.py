@@ -205,7 +205,7 @@ class QualityArchiveMakerThread(threading.Thread):
             self.addLogTrace(' # The quality Export File record is created<br>')
 
             filename = f'{self.quality_type}__Quality__{year_txt}_{term_txt}_{str(_export.submission_time)[:22]}'
-            #_basedir = os.path.join('/', 'home', 'uKKU', filename)
+            # _basedir = os.path.join('/', 'home', 'uKKU', filename)
             _basedir = os.path.join(settings.SITE_TMP_DIR, 'uKKU2')
             self.createDir(_basedir)
             self.addLogTrace(f' # The tmp quality export base folder is created: {_basedir}.<br>')
@@ -268,7 +268,8 @@ class QualityArchiveMakerThread(threading.Thread):
                                                     _cfi_report.gradeFile.teacher.last_name)
                         self.logger.debug(f'The faculty dir is {_faculty_dir}')
                         self.createDir(_faculty_dir)
-                        _courses_dir = os.path.join(_faculty_dir, _cfi_report.gradeFile.course_name.replace('-', ' '))
+                        _courses_dir = os.path.join(_faculty_dir,
+                                                    f'{_cfi_report.gradeFile.section_courseObj.course_code}---{_cfi_report.gradeFile.section_courseObj.course_name}')
                         self.logger.debug(f'The course dir is {_courses_dir}')
                         self.createDir(_courses_dir)
                         _section_dir = os.path.join(_courses_dir, f'section_{_cfi_report.gradeFile.section_code}')
