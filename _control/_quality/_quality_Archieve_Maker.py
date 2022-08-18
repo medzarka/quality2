@@ -83,9 +83,11 @@ class QualityArchiveMakerThread(threading.Thread):
             _user = Group.objects.get(name=HEAD_GROUP).user_set.all()[0]
             return _user
         except Group.DoesNotExist as e:
-            self.logger.error(f'[Quality Achieve Maker] The quality head is not found. Check if the group {HEAD_GROUP} exists, and if it has at least one member.')
+            self.logger.error(
+                f'[Quality Achieve Maker] The quality head is not found. Check if the group {HEAD_GROUP} exists, and if it has at least one member.')
             self.logger.exception(e)
             return None
+
     def generate_quality_cfr_report(self, _cfi_obj, _meeting_obj):
         if _cfi_obj is None:
             return False
@@ -140,7 +142,7 @@ class QualityArchiveMakerThread(threading.Thread):
                     # generate CFR report
                     if self.quality_type == 'cfr':
                         _template_cfr_report = os.path.join(settings.SITE_FILES_DIR, 'media',
-                                                            + Quality_FS.TEMPLATES.value, 'cfr_template.docx')
+                                                            Quality_FS.TEMPLATES.value, 'cfr_template.docx')
                         # _template_cfr_report = os.path.join('media/' + Quality_FS.TEMPLATES.value, 'cfr_template.docx')
                         tpl = DocxTemplate(_template_cfr_report)
                         tpl.render(_data)
@@ -153,7 +155,7 @@ class QualityArchiveMakerThread(threading.Thread):
                     # generate CFI report
                     if self.quality_type == 'cfi':
                         _template_cfi_report = os.path.join(settings.SITE_FILES_DIR, 'media',
-                                                            + Quality_FS.TEMPLATES.value, 'cfi_template.docx')
+                                                            Quality_FS.TEMPLATES.value, 'cfi_template.docx')
                         tpl = DocxTemplate(_template_cfi_report)
                         tpl.render(_data)
                         tpl.save(cfi_filename)
