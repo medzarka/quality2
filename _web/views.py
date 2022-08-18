@@ -185,7 +185,7 @@ def quality_mycfis_reviewers(request):
 @login_required
 def quality_export(request):
     __page = _page_quality_export(request=request, link='quality_export')
-    logger.debug('[_WEB VIEW] quality dashboard call.')
+    logger.debug('[_WEB VIEW] quality export call.')
     return render(request, "base.html", __page.getContext())
 
 

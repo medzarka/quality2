@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import shutil
+import logging
 
 from django.contrib.auth.models import User, Group
 
@@ -23,6 +24,8 @@ class _page_quality_export(Abstract_UI_Page):
     def __init__(self, request, link):
         super().__init__(page_title='Quality :: Quality Documents Statistics/Export', link=link,
                          request_obj=request)
+        self.logger = logging.getLogger('db')
+        self.logger.debug(f'[Quality Dashboard] logger initialized.')
 
     def getDiskSpaceInfo(self):
 

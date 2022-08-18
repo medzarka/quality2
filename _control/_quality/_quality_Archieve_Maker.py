@@ -13,6 +13,7 @@ import threading
 import time
 import shutil
 import os
+import logging
 from _data._data_measurement import GradesFile, CourseFile, DepartmentFile, MeasurementExportFile
 from django.core.files import File
 
@@ -49,6 +50,8 @@ class QualityArchiveMakerThread(threading.Thread):
         self.quality_type = quality
 
         print('#################  QualityArchiveMakerThread is created')
+        self.logger = logging.getLogger('db')
+        self.logger.debug(f'[Quality Achieve Maker] logger initialized.')
 
     def make_archive(self, source, destination):
         base_name = '.'.join(destination.split('.')[:-1])
@@ -126,7 +129,9 @@ class QualityArchiveMakerThread(threading.Thread):
 
                     # generate CFR report
                     if self.quality_type == 'cfr':
-                        _template_cfr_report = os.path.join('media/' + Quality_FS.TEMPLATES.value, 'cfr_template.docx')
+                        _template_cfr_report = os.path.join(settings.SITE_FILES_DIR, 'media',
+                                                            + Quality_FS.TEMPLATES.value, 'cfr_template.docx')
+                        # _template_cfr_report = os.path.join('media/' + Quality_FS.TEMPLATES.value, 'cfr_template.docx')
                         tpl = DocxTemplate(_template_cfr_report)
                         tpl.render(_data)
                         tpl.save(cfr_filename)
@@ -137,7 +142,8 @@ class QualityArchiveMakerThread(threading.Thread):
 
                     # generate CFI report
                     if self.quality_type == 'cfi':
-                        _template_cfi_report = os.path.join('media/' + Quality_FS.TEMPLATES.value, 'cfi_template.docx')
+                        _template_cfi_report = os.path.join(settings.SITE_FILES_DIR, 'media',
+                                                            + Quality_FS.TEMPLATES.value, 'cfi_template.docx')
                         tpl = DocxTemplate(_template_cfi_report)
                         tpl.render(_data)
                         tpl.save(cfi_filename)
@@ -407,6 +413,8 @@ class QualityArchiveMakerThread(threading.Thread):
             _export.elapsedTime = '{}'.format(end_time - start_time)
             _export.exec_trace = self.LogTrace
             _export.save()
+
+        self.logger.info(f'[Quality Achieve Maker] {self.LogTrace}')
 
         with QualityArchiveMakerThread._lock:
             QualityArchiveMakerThread.__a_thread_is_working = False
