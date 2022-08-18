@@ -84,9 +84,9 @@ class QualityArchiveMakerThread(threading.Thread):
 
             if _cfi_obj.cfi_report_state == ReportState.ACCEPTED.value:
                 try:
-                    cfr_filename = os.path.join(settings.SITE_DATA_DIR, 'media', Quality_FS.TMP.value,
+                    cfr_filename = os.path.join(settings.SITE_FILES_DIR, 'media', Quality_FS.TMP.value,
                                                 'cfr_report_' + str(_cfi_obj.course_cfi_id) + '.docx')
-                    cfi_filename = os.path.join(settings.SITE_DATA_DIR, 'media', Quality_FS.TMP.value,
+                    cfi_filename = os.path.join(settings.SITE_FILES_DIR, 'media', Quality_FS.TMP.value,
                                                 'cfi_report_' + str(_cfi_obj.course_cfi_id) + '.docx')
 
                     _data = {}
@@ -118,7 +118,7 @@ class QualityArchiveMakerThread(threading.Thread):
                     _data[
                         'course_plan_filename'] = f'08_{_meeting_obj.course.course_code}_CP.{_cfi_obj.course_plan_file.name.split(".")[-1]}'
                     _data[
-                        'measurement_filename'] = f'9_{_meeting_obj.course.course_code}_MEASUREMENT.{_cfi_obj.gradeFile.report_file.name.split(".")[-1]}'
+                        'measurement_filename'] = f'09_{_meeting_obj.course.course_code}_MEASUREMENT.{_cfi_obj.gradeFile.report_file.name.split(".")[-1]}'
                     _data[
                         'cv_filename'] = f'10_FACULTY_CV.{_cfi_obj.curriculum_vitae_file.name.split(".")[-1]}'
                     _data['reviewer'] = _cfi_obj.cfi_reviewer.last_name
@@ -160,6 +160,7 @@ class QualityArchiveMakerThread(threading.Thread):
 
                 except Exception as e:
                     self.addLogTrace(f'          [ERROR] # An error {str(e)}<br>')
+                    self.logger.exception(e)
                     return False
             else:
                 self.addLogTrace(f'          [WARN] The CFI is not accepted yet. Ignore creating the CFR/CFI.<br>')
@@ -274,7 +275,7 @@ class QualityArchiveMakerThread(threading.Thread):
                             ___cfi_mydata[__theKey] = _cfi_report.course_specification_file.path
                         except:
                             self.addLogTrace(
-                                f'          [ERROR] !!! An error was occured when working with the course specification file CFI for section {_cfi_report.gradeFile.section_code}<br>')
+                                f'          [ERROR] !!! An error was occurred when working with the course specification file CFI for section {_cfi_report.gradeFile.section_code}<br>')
 
                         try:
                             __theKey = f'02_{___course_code}_Samples.{_cfi_report.exams_samples_file.path.split(".")[-1]}'
@@ -282,7 +283,7 @@ class QualityArchiveMakerThread(threading.Thread):
                             ___cfi_mydata[__theKey] = _cfi_report.exams_samples_file.path
                         except:
                             self.addLogTrace(
-                                f'          [ERROR] !!! An error was occured when working with the exam example file CFI for section {_cfi_report.gradeFile.section_code}<br>')
+                                f'          [ERROR] !!! An error was occurred when working with the exam example file CFI for section {_cfi_report.gradeFile.section_code}<br>')
                         try:
                             __theKey = f'03_{___course_code}_Marks.{_cfi_report.marks_file.path.split(".")[-1]}'
                             ___cfr_mydata[__theKey] = _cfi_report.marks_file.path
