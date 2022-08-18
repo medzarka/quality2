@@ -77,6 +77,15 @@ class QualityArchiveMakerThread(threading.Thread):
     def LogTrace(self):
         return self.trace
 
+    def getQuality_Main_Head(self):
+        HEAD_GROUP = 'QUALITY_MAIN_HEAD'
+        try:
+            _user = Group.objects.get(name=HEAD_GROUP).user_set.all()[0]
+            return _user
+        except Group.DoesNotExist as e:
+            self.logger.error(f'[Quality Achieve Maker] The quality head is not found. Check if the group {HEAD_GROUP} exists, and if it has at least one member.')
+            self.logger.exception(e)
+            return None
     def generate_quality_cfr_report(self, _cfi_obj, _meeting_obj):
         if _cfi_obj is None:
             return False
@@ -122,7 +131,8 @@ class QualityArchiveMakerThread(threading.Thread):
                     _data[
                         'cv_filename'] = f'10_FACULTY_CV.{_cfi_obj.curriculum_vitae_file.name.split(".")[-1]}'
                     _data['reviewer'] = _cfi_obj.cfi_reviewer.last_name
-                    _data['head'] = User.objects.get(username=13571).last_name
+                    _data['head'] = self.getQuality_Main_Head()
+
                     _data['program'] = _meeting_obj.course.program.program_name
                     _data['department'] = _cfi_obj.gradeFile.section_department.department_name
                     _data['semester'] = _cfi_obj.gradeFile.semester
