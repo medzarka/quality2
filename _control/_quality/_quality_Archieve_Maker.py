@@ -285,7 +285,8 @@ class QualityArchiveMakerThread(threading.Thread):
                             __theKey = f'01_{___course_code}_CS.{_cfi_report.course_specification_file.path.split(".")[-1]}'
                             ___cfr_mydata[__theKey] = _cfi_report.course_specification_file.path
                             ___cfi_mydata[__theKey] = _cfi_report.course_specification_file.path
-                        except:
+                        except Exception as e:
+                            self.logger.exception(e)
                             self.addLogTrace(
                                 f'          [ERROR] !!! An error was occurred when working with the course specification file CFI for section {_cfi_report.gradeFile.section_code}<br>')
 
@@ -293,14 +294,16 @@ class QualityArchiveMakerThread(threading.Thread):
                             __theKey = f'02_{___course_code}_Samples.{_cfi_report.exams_samples_file.path.split(".")[-1]}'
                             ___cfr_mydata[__theKey] = _cfi_report.exams_samples_file.path
                             ___cfi_mydata[__theKey] = _cfi_report.exams_samples_file.path
-                        except:
+                        except Exception as e:
+                            self.logger.exception(e)
                             self.addLogTrace(
                                 f'          [ERROR] !!! An error was occurred when working with the exam example file CFI for section {_cfi_report.gradeFile.section_code}<br>')
                         try:
                             __theKey = f'03_{___course_code}_Marks.{_cfi_report.marks_file.path.split(".")[-1]}'
                             ___cfr_mydata[__theKey] = _cfi_report.marks_file.path
                             ___cfi_mydata[__theKey] = _cfi_report.marks_file.path
-                        except:
+                        except Exception as e:
+                            self.logger.exception(e)
                             self.addLogTrace(
                                 f'          [ERROR] !!! An error was occured when working with the mark file CFI for section {_cfi_report.gradeFile.section_code}<br>')
                             print(
@@ -311,7 +314,9 @@ class QualityArchiveMakerThread(threading.Thread):
                             ___cfr_mydata[__theKey] = _cfi_report.clos_measurement_file.path
                             ___cfi_mydata[__theKey] = _cfi_report.clos_measurement_file.path
 
-                        except:
+
+                        except Exception as e:
+                            self.logger.exception(e)
                             self.addLogTrace(
                                 f'          [ERROR] !!! An error was occured when working with the CLOs file CFI for section {_cfi_report.gradeFile.section_code}<br>')
 
@@ -320,42 +325,49 @@ class QualityArchiveMakerThread(threading.Thread):
                             ___cfr_mydata[__theKey] = _cfi_report.course_report_file.path
                             ___cfi_mydata[__theKey] = _cfi_report.course_report_file.path
 
-                        except:
+
+                        except Exception as e:
+                            self.logger.exception(e)
                             self.addLogTrace(
                                 f'          [ERROR] !!! An error was occured when working with the course report file CFI for section {_cfi_report.gradeFile.section_code}<br>')
 
                         try:
                             ___cfr_mydata[
                                 f'6_{___course_code}_KPI.{_cfi_report.kpis_measurements_file.path.split(".")[-1]}'] = _cfi_report.kpis_measurements_file.path
-                        except:
+                        except Exception as e:
+                            self.logger.exception(e)
                             self.addLogTrace(
                                 f'          [ERROR] !!! An error was occured when working with the KPIs CFI for section {_cfi_report.gradeFile.section_code}<br>')
 
                         try:
                             ___cfr_mydata[
                                 f'7_{___section_teacher}_FS.{_cfi_report.instructor_schedule_file.path.split(".")[-1]}'] = _cfi_report.instructor_schedule_file.path
-                        except:
+                        except Exception as e:
+                            self.logger.exception(e)
                             self.addLogTrace(
                                 f'          [ERROR] !!! An error was occured when working with the instructor schedule file CFI for section {_cfi_report.gradeFile.section_code}<br>')
 
                         try:
                             ___cfr_mydata[
                                 f'8_{___course_code}_CP.{_cfi_report.course_plan_file.path.split(".")[-1]}'] = _cfi_report.course_plan_file.path
-                        except:
+                        except Exception as e:
+                            self.logger.exception(e)
                             self.addLogTrace(
                                 f'          [ERROR] !!! An error was occured when working with the course plan file CFI for section {_cfi_report.gradeFile.section_code}<br>')
 
                         try:
                             ___cfr_mydata[
                                 f'9_{___course_code}_SR.{_cfi_report.gradeFile.report_file.path.split(".")[-1]}'] = _cfi_report.gradeFile.report_file.path
-                        except:
+                        except Exception as e:
+                            self.logger.exception(e)
                             self.addLogTrace(
                                 f'          [ERROR] !!! An error was occured when working with the statistical file CFI for section {_cfi_report.gradeFile.section_code}<br>')
 
                         try:
                             ___cfr_mydata[
                                 f'10_{___section_teacher}_CV.{_cfi_report.curriculum_vitae_file.path.split(".")[-1]}'] = _cfi_report.curriculum_vitae_file.path
-                        except:
+                        except Exception as e:
+                            self.logger.exception(e)
                             self.addLogTrace(
                                 f'          [ERROR] !!! An error was occured when working with the curriculum vitae file CFI for section {_cfi_report.gradeFile.section_code}<br>')
 
@@ -363,7 +375,7 @@ class QualityArchiveMakerThread(threading.Thread):
                             ___cfi_mydata[
                                 f'0_{___meeting.course.course_code}_CourseFileIndex.docx'] = _cfi_report.report_cfi.path
                         except Exception as e:
-                            print(str(e))
+                            self.logger.exception(e)
                             self.addLogTrace(
                                 f'          [ERROR] !!! An error was occured when working with the Course File Index for section {_cfi_report.gradeFile.section_code}<br>')
 
@@ -371,7 +383,7 @@ class QualityArchiveMakerThread(threading.Thread):
                             ___cfr_mydata[
                                 f'0_{___meeting.course.course_code}_Checklist_Course_File_Requirements.docx'] = _cfi_report.report_cfr.path
                         except Exception as e:
-                            print(str(e))
+                            self.logger.exception(e)
                             self.addLogTrace(
                                 f'          [ERROR] !!! An error was occured when working with the Course File Requirements for section {_cfi_report.gradeFile.section_code}<br>')
 
@@ -404,7 +416,7 @@ class QualityArchiveMakerThread(threading.Thread):
             self.addLogTrace('[INFO] The archive file was correctly updated in the database<br>')
             _export.elapsedTime = '{}'.format(end_time - start_time)
 
-            exec_log_filename = os.path.join(settings.SITE_DATA_DIR, 'media', Quality_FS.TMP.value, 'log_trace.txt')
+            exec_log_filename = os.path.join(settings.SITE_SITE_DIR, 'media', Quality_FS.TMP.value, 'log_trace.txt')
             with open(exec_log_filename, 'w') as f:
                 f.write(self.LogTrace.replace('<br>', ''))
             _export.exec_trace_file.save('exec_log_trace.txt', File(open(exec_log_filename, 'rb')))
@@ -420,6 +432,7 @@ class QualityArchiveMakerThread(threading.Thread):
 
 
         except Exception as eee:
+            self.logger.exception(eee)
             self.addLogTrace('[ERROR] !!! An error was occurred  ' + str(eee) + '<br>')
             end_time = datetime.now()
             _export.state = -1
