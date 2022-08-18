@@ -423,7 +423,7 @@ class QualityArchiveMakerThread(threading.Thread):
             self.addLogTrace('[INFO] The archive file was correctly updated in the database<br>')
             _export.elapsedTime = '{}'.format(end_time - start_time)
 
-            exec_log_filename = os.path.join(settings.SITE_SITE_DIR, 'media', Quality_FS.TMP.value, 'log_trace.txt')
+            exec_log_filename = os.path.join(settings.SITE_FILES_DIR, 'media', Quality_FS.TMP.value, 'log_trace.txt')
             with open(exec_log_filename, 'w') as f:
                 f.write(self.LogTrace.replace('<br>', ''))
             _export.exec_trace_file.save('exec_log_trace.txt', File(open(exec_log_filename, 'rb')))
