@@ -16,6 +16,7 @@ class GradesFileReader:
         self.logger = logging.getLogger('db')
         self.logger.debug(f'[Grades File Tools] logger initialized.')
 
+
     def read(self):
         '''
         This method reads the content of the grades file and fill the data property that contains the extracted information
@@ -98,9 +99,12 @@ class GradesFileReader:
             self.msgs.append('The file does not exist or is a folder.')
             self.logger.error(f'[Grades File Tools] The file does not exist or is a folder.')
 
-        print(self.data)
-        print(self.done)
-        print(self.msgs)
+        #print(self.data)
+        self.logger.debug(f'[Grades File Tools] The data created is {self.data}')
+        #print(self.done)
+        self.logger.debug(f'[Grades File Tools] The data is done ? {self.done}')
+        #print(self.msgs)
+        self.logger.debug(f'[Grades File Tools] The messages created is {self.msgs}')
 
 if __name__ == "__main__":
     tool = GradesFileReader(r'/home/mzarka/grades.xls')
