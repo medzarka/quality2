@@ -206,7 +206,7 @@ class QualityArchiveMakerThread(threading.Thread):
 
             filename = f'{self.quality_type}__Quality__{year_txt}_{term_txt}_{str(_export.submission_time)[:22]}'
             #_basedir = os.path.join('/', 'home', 'uKKU', filename)
-            _basedir = os.path.join(settings.SITE_TMP, 'uKKU2')
+            _basedir = os.path.join(settings.SITE_TMP_DIR, 'uKKU2')
             self.createDir(_basedir)
             self.addLogTrace(f' # The tmp quality export base folder is created: {_basedir}.<br>')
 
