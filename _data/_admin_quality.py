@@ -50,7 +50,7 @@ def update_file_field(cfi_obj, logger):
             logger.debug(f'\tthe copy is done from  {_field.path} to {_destination_filename}')
 
             # update the field
-            _field.save(os.path.basename(_destination_filename), File(open(_destination_filename, "wb")), save=True)
+            _field.save(_fields[_field][1], File(open(_destination_filename)), save=True)
             logger.debug(f'\tthe field is updated')
 
             os.remove(_fields[_field][0])
@@ -58,8 +58,8 @@ def update_file_field(cfi_obj, logger):
             os.remove(_destination_filename)
             logger.debug(f'\tthe file {_destination_filename} is deleted')
 
-        except:
-            pass
+        except Exception as e:
+            logger.exception(e)
 
     cfi_obj.save()
     logger.debug(f'The course file index with id {cfi_obj.course_cfi_id} is updated.')
