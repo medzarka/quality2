@@ -36,30 +36,37 @@ def update_file_field(cfi_obj, logger):
     for _field in _fields.keys():
         try:
             logger.debug(f'------------------------------')
+            original_filename = os.path.basename(_field.path)
+            original_path = _field.path
+            temporary_filename = f'{str(uuid.uuid4())}.{_field.path.split(".")[-1]}'
+            temporary_path = os.path.join(_destination_dir, temporary_filename)
+
+
             # update the original paths
-            _fields[_field].append(_field.path)
-            logger.debug(f'\tworking with the file {_field.path}')
+            _fields[_field].append(original_path)
+            logger.debug(f'\tworking with the file {original_path}')
             # update the new temporary paths
-            _fields[_field].append(f'{str(uuid.uuid4())}.{_field.path.split(".")[-1]}')
+            _fields[_field].append(temporary_path)
+            logger.debug(f'\tthe temporary filename is  {temporary_path}')
 
             # copy the files
-            _destination_filename = os.path.join(_destination_dir, _fields[_field][1])
-            logger.debug(f'\tthe destination file is  {_destination_filename}')
 
-            cp_source = _fields[_field][0].replace(" ", "\ ")
-            cp_destination = _destination_filename.replace(" ", "\ ")
+            cp_source = original_path.replace(" ", "\ ")
+            cp_destination = temporary_path.replace(" ", "\ ")
             os.system(f'cp {cp_source} {cp_destination}')
             logger.debug(f'\tthe copy is script is :: "cp {cp_source} {cp_destination}"')
-            logger.debug(f'\tthe copy is done from  {_field.path} to {_destination_filename}')
+            logger.debug(f'\tthe copy is done from  {original_filename} to {temporary_filename}')
 
             # update the field
-            _field.save(_fields[_field][1], File(open(_destination_filename)), save=True)
+
+            f = open(temporary_path, mode ='rb', encoding='utf-8')
+            _field.save(_fields[_field][1], File(f), save=True)
             logger.debug(f'\tthe field is updated')
 
-            os.remove(_fields[_field][0])
-            logger.debug(f'\tthe file {_fields[_field][0]} is deleted')
-            os.remove(_destination_filename)
-            logger.debug(f'\tthe file {_destination_filename} is deleted')
+            os.remove(original_filename)
+            logger.debug(f'\tthe file {original_filename} is deleted')
+            os.remove(temporary_path)
+            logger.debug(f'\tthe file {temporary_path} is deleted')
 
         except Exception as e:
             logger.exception(e)
