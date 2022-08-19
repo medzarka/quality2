@@ -55,7 +55,7 @@ def update_file_field(cfi_obj, logger):
 
             # update the field
 
-            f = open(temporary_path, mode='rb', encoding='utf-8')
+            f = open(temporary_path, mode='rb')
             _field.save(_fields[_field][1], File(f), save=True)
             logger.debug(f'\tthe field is updated')
 
