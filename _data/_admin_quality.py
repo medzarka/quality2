@@ -46,6 +46,7 @@ def update_file_field(cfi_obj, logger):
             _destination_filename = os.path.join(_destination_dir, _fields[_field][1])
             logger.debug(f'\tthe destination file is  {_destination_filename}')
             os.system(f'cp {_fields[_field][0]} {_destination_filename}')
+            logger.debug(f'\tthe copy is script is :: "cp {_fields[_field][0]} {_destination_filename}"')
             logger.debug(f'\tthe copy is done from  {_field.path} to {_destination_filename}')
 
             # update the field
