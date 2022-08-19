@@ -64,7 +64,7 @@ class ReportState(Enum):
 
 
 
-def get_upload_file_name(instance, filename):
+def get_upload_file_name_old(instance, filename):
     _tmp = f'{Quality_FS.REPORTS.value}'
     _tmp += f'{instance.gradeFile.semester.semester_academic_year.academic_year_name}/'
     _tmp += f'{instance.gradeFile.semester.semester_name}/'
@@ -74,9 +74,16 @@ def get_upload_file_name(instance, filename):
     _tmp += f'{instance.gradeFile.section_code}/{filename}'
     return _tmp
 
+def get_upload_file_name(instance, filename):
+    _tmp = f'{Quality_FS.REPORTS.value}/'
+    _tmp += f'{instance.semester.semester_academic_year.academic_year_name}/'
+    _tmp += f'{instance.semester.semester_name}/files/'
+    _tmp += f'{filename}'
+    return _tmp
+
 
 def get_quality_export_file_name(instance, filename):
-    _tmp = f'{Quality_FS.REPORTS.value}'
+    _tmp = f'{Quality_FS.REPORTS.value}/'
     _tmp += f'{instance.semester.semester_academic_year.academic_year_name}/'
     _tmp += f'{instance.semester.semester_name}/export/'
     _tmp += f'{instance.quality_type}__Quality_export_{instance.semester.semester_academic_year.academic_year_name}'
@@ -87,7 +94,7 @@ def get_quality_export_file_name(instance, filename):
 def get_quality_export_logtrace_filename(instance, filename):
     _tmp = f'{Quality_FS.REPORTS.value}'
     _tmp += f'{instance.semester.semester_academic_year.academic_year_name}/'
-    _tmp += f'{instance.semester.semester_name}/export/'
+    _tmp += f'{instance.semester.semester_name}/logtrace/'
     _tmp += f'{filename}'
     return _tmp
 
