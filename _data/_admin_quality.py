@@ -49,8 +49,8 @@ def update_file_field(cfi_obj, logger):
 
             cp_source = original_path.replace(" ", "\ ")
             cp_destination = temporary_path.replace(" ", "\ ")
-            os.system(f'cp {cp_source} {cp_destination}')
             logger.debug(f'\tthe copy is script is :: "cp {cp_source} {cp_destination}"')
+            os.system(f'cp {cp_source} {cp_destination}')
             logger.debug(f'\tthe copy is done from  {original_filename} to {temporary_filename}')
 
             # update the field
