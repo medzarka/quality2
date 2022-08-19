@@ -56,10 +56,10 @@ def update_file_field(cfi_obj, logger):
             # update the field
 
             f = open(temporary_path, mode='rb')
-            _field.save(_fields[_field][1], File(f), save=True)
+            _field.save(temporary_filename, File(f), save=True)
             logger.debug(f'\tthe field is updated')
 
-            os.remove(original_filename)
+            os.remove(original_path)
             logger.debug(f'\tthe file {original_filename} is deleted')
             os.remove(temporary_path)
             logger.debug(f'\tthe file {temporary_path} is deleted')
