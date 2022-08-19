@@ -76,8 +76,9 @@ def get_upload_file_name_old(instance, filename):
 
 def get_upload_file_name(instance, filename):
     _tmp = f'{Quality_FS.REPORTS.value}/'
-    _tmp += f'{instance.semester.semester_academic_year.academic_year_name}/'
-    _tmp += f'{instance.semester.semester_name}/files/'
+    _tmp += f'{instance.gradeFile.semester.semester_academic_year.academic_year_name}/'
+    _tmp += f'{instance.gradeFile.semester.semester_name}/'
+    _tmp += f'files/'
     _tmp += f'{filename}'
     return _tmp
 
