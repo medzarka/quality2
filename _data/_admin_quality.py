@@ -60,6 +60,9 @@ def update_file_field(cfi_obj, logger):
         except:
             pass
 
+    cfi_obj.save()
+    logger.debug(f'The course file index with id {cfi_obj.course_cfi_id} is updated.')
+
 
 class Course_CFIAdmin(admin.ModelAdmin):
     list_display = (
