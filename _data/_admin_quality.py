@@ -6,8 +6,6 @@ import uuid
 import os
 import logging
 
-
-
 from _data._data_quality import Course_CFI, ReviewerAffectations, QualityExportFile
 
 
@@ -32,7 +30,6 @@ def update_file_field(cfi_obj, logger):
     os.makedirs(_destination_dir, exist_ok=True)
     logger.debug(f'Temporary directory is created : {_destination_dir}')
 
-
     for _field in _fields.keys():
         try:
             logger.debug(f'------------------------------')
@@ -40,7 +37,6 @@ def update_file_field(cfi_obj, logger):
             original_path = _field.path
             temporary_filename = f'{str(uuid.uuid4())}.{_field.path.split(".")[-1]}'
             temporary_path = os.path.join(_destination_dir, temporary_filename)
-
 
             # update the original paths
             _fields[_field].append(original_path)
@@ -59,7 +55,7 @@ def update_file_field(cfi_obj, logger):
 
             # update the field
 
-            f = open(temporary_path, mode ='rb', encoding='utf-8')
+            f = open(temporary_path, mode='rb', encoding='utf-8')
             _field.save(_fields[_field][1], File(f), save=True)
             logger.debug(f'\tthe field is updated')
 
@@ -79,10 +75,10 @@ class Course_CFIAdmin(admin.ModelAdmin):
     list_display = (
         'course_cfi_id', 'campus', 'courseFullName', 'department', 'section',
         'teacher', 'semester')
-    list_filter = ('gradeFile__semester', )
+    list_filter = ('gradeFile__semester',)
     search_fields = ('gradeFile__section_code',)
 
-    #os.system('cp source.txt destination.txt')
+    # os.system('cp source.txt destination.txt')
     def update_paths(modeladmin, request, queryset):
         logger = logging.getLogger('db')
         logger.debug(f'[update_paths_quality] logger initialized.')
@@ -91,7 +87,6 @@ class Course_CFIAdmin(admin.ModelAdmin):
                 continue
             else:
                 update_file_field(_cfi_report, logger=logger)
-
 
     update_paths.short_description = 'Apply update paths'
     actions = [update_paths, ]  # <-- Add the list action function here
