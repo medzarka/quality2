@@ -398,12 +398,14 @@ class QualityArchiveMakerThread(threading.Thread):
                         if self.quality_type == 'cfr':
                             for key, value in ___cfr_mydata.items():
                                 dst = os.path.join(_section_dir_cfr, key)
+                                self.logger.debug(f'Copy CFR files from {value} to {dst}')
                                 shutil.copyfile(value, dst)
 
                         # copy CFI files
                         if self.quality_type == 'cfi':
                             for key, value in ___cfi_mydata.items():
                                 dst = os.path.join(_section_dir_cfi, key)
+                                self.logger.debug(f'Copy CFI files from {value} to {dst}')
                                 shutil.copyfile(value, dst)
 
             source = _basedir
