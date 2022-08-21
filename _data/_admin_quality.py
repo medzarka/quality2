@@ -49,10 +49,9 @@ def update_file_field(cfi_obj, logger):
             # copy the files
 
             cp_source = original_path#.replace(" ", "\ ")
-            import codecs
-            cp_source_obj = codecs.open(cp_source, 'rb')
+            cp_source_obj = open(cp_source, 'rb')
             cp_destination = temporary_path#.replace(" ", "\ ")
-            cp_destination_obj = codecs.open(cp_destination, 'wb')
+            cp_destination_obj = open(cp_destination, 'wb')
             #logger.debug(f'\tthe copy is script is :: "cp {cp_source} {cp_destination}"')
             #os.system(f'cp {cp_source} {cp_destination}')
             shutil.copyfileobj(cp_source_obj, cp_destination_obj)
