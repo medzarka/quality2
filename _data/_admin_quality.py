@@ -12,6 +12,7 @@ from _data._data_quality import Course_CFI, ReviewerAffectations, QualityExportF
 
 def update_file_field(cfi_obj, logger):
     logger.debug(f'############################################################')
+    logger.debug(f'#### DATABASES --> {settings.DATABASES}')
     logger.debug(f'Working with the course file index with id {cfi_obj.course_cfi_id}')
     _fields = {}
     _fields[cfi_obj.course_specification_file] = []
