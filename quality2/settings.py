@@ -144,19 +144,17 @@ WSGI_APPLICATION = 'quality2.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 
-if env.str('DATABASE_URL', default=''):
+if DEBUG is False:#env.str('DATABASE_URL', default=''):
     DATABASES = {
         'default': env.db(),
     }
 
-    '''    
-        DATABASES['default']['OPTIONS'] = {
-        'init_command': "SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1",
-        'charset': 'utf8mb4',
-        "autocommit": True,
+    DATABASES['default']['OPTIONS'] = {
+    'init_command': "SET sql_mode='STRICT_TRANS_TABLES', innodb_strict_mode=1",
+    'charset': 'utf8mb4',
+    "autocommit": True,
     }
-    '''
-    print(f'DATABASES --> {DATABASES}')
+
 else:
     DATABASES = {
         'default': {
@@ -164,6 +162,8 @@ else:
             'NAME': SITE_DATA_DIR.path('db')('django.sqlite3'),
         },
     }
+
+print(f'DATABASES --> {DATABASES}')
 
 
 # Password validation
