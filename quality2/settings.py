@@ -15,7 +15,6 @@ from pathlib import Path
 import environ
 import os
 
-import django.db.backends.postgresql.base
 
 
 def createDir(dirname):
