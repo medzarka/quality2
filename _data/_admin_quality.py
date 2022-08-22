@@ -7,6 +7,8 @@ import os
 import logging
 import shutil
 
+from _data._data_upgrade import upgrade
+
 from _data._data_quality import Course_CFI, ReviewerAffectations, QualityExportFile
 
 
@@ -32,6 +34,25 @@ def update_file_field(cfi_obj, logger):
     os.makedirs(_destination_dir, exist_ok=True)
     logger.debug(f'Temporary directory is created : {_destination_dir}')
 
+    for _field in _fields.keys():
+        original_path = _field.path
+
+        _upgrade_file = upgrade()
+        _upgrade_file.original_filename_path = original_path
+        _upgrade_file.save()
+
+        try:
+            _upgrade_file.do_createTemporary_filename()
+            _upgrade_file.do_copy()
+            _upgrade_file.do_upgrade()
+            _upgrade_file.do_clean()
+            logger.info(f'File upgrade process done for the file {original_path}')
+            logger.info(f'File upgrade process trace is  {_upgrade_file.description}')
+        except Exception as e:
+            logger.error(f'Error in file upgrade process for the file {original_path}')
+            logger.exception(e)
+
+    '''
     for _field in _fields.keys():
         try:
             logger.debug(f'------------------------------')
@@ -74,6 +95,7 @@ def update_file_field(cfi_obj, logger):
 
     cfi_obj.save()
     logger.debug(f'The course file index with id {cfi_obj.course_cfi_id} is updated.')
+    '''
 
 
 class Course_CFIAdmin(admin.ModelAdmin):
