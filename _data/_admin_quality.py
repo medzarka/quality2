@@ -37,6 +37,7 @@ def update_file_field(cfi_obj, logger):
     for _field in _fields.keys():
         original_path = _field.path
 
+
         _upgrade_file = upgrade()
         _upgrade_file.original_filename_path = original_path
         _upgrade_file.save()
