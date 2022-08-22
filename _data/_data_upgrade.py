@@ -43,8 +43,11 @@ class upgrade(models.Model):
             try:
                 cp_source = self.original_filename_path
                 cp_destination = self.temporary_filename_path
-                cp_source_obj = open(cp_source, 'rb')
+                self.description = self.description + '\n(2) Opening the temporary file.'
                 cp_destination_obj = open(cp_destination, 'wb')
+                self.description = self.description + '\n(2) Opening the original file.'
+                cp_source_obj = open(cp_source, 'rb')
+                self.description = self.description + '\n(2) Files are open now.'
 
                 if mode == 'python':
                     shutil.copyfileobj(cp_source_obj, cp_destination_obj)
