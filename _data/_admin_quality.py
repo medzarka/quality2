@@ -39,7 +39,9 @@ def update_file_field(cfi_obj, logger):
 
 
         _upgrade_file = upgrade()
-        _upgrade_file.original_filename_path = original_path
+        _upgrade_file.original_filename_path = u''.join(original_path)
+        logger.info(f'Test1 original --> {original_path}')
+        logger.info(f'Test2 original with u"" --> {_upgrade_file.original_filename_path}')
         _upgrade_file.save()
 
         try:
