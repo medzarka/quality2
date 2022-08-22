@@ -33,10 +33,10 @@ class upgrade(models.Model):
                 self.status = 'T'
             else:
                 self.status = 'E'
-                self.description = self.description + '\nUnable to create temporary file because the original file is not correctly set.'
+                self.description = self.description + '\n (1) Unable to create temporary file because the original file is not correctly set.'
             self.save()
         else:
-            raise Exception('File Upgrade Error :: it looks like that the temporary file is already created.')
+            raise Exception('File Upgrade Error (1) :: it looks like that the temporary file is already created.')
 
     def do_copy(self, mode='python'):
         if self.status == 'T':
@@ -54,13 +54,13 @@ class upgrade(models.Model):
 
             except Exception as e:
                 self.status = 'E'
-                self.description = self.description + '\nUnable to copy the original file.'
-                self.description = self.description + f'\nThe error is {str(e)}'
+                self.description = self.description + '\n(2) Unable to copy the original file.'
+                self.description = self.description + f'\n(2) The error is {str(e)}'
 
             self.save()
         else:
             raise Exception(
-                'File Upgrade Error :: it looks like that the temporary file is already copied or that the temporary file is not yet created.')
+                'File Upgrade Error (2) :: it looks like that the temporary file is already copied or that the temporary file is not yet created.')
 
     def do_upgrade(self, data_filefield):
         if self.status == 'C':
@@ -72,7 +72,7 @@ class upgrade(models.Model):
 
         else:
             raise Exception(
-                'File Upgrade Error :: it looks like that the temporary file is already copied, or not yet created.')
+                'File Upgrade Error (3) :: it looks like that the temporary file is already copied, or not yet created.')
 
     def do_clean(self):
         if self.status == 'U':
@@ -82,7 +82,7 @@ class upgrade(models.Model):
             self.save()
         else:
             raise Exception(
-                'File Upgrade Error :: it looks like that the file upgrade process is already clean or some process are not yet completed.')
+                'File Upgrade Error (4) :: it looks like that the file upgrade process is already clean or some process are not yet completed.')
 
     class Meta:
         ordering = ['status']
