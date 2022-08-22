@@ -45,7 +45,7 @@ def update_file_field(cfi_obj, logger):
         try:
             _upgrade_file.do_createTemporary_filename()
             _upgrade_file.do_copy()
-            _upgrade_file.do_upgrade()
+            _upgrade_file.do_upgrade(_field)
             _upgrade_file.do_clean()
             logger.info(f'File upgrade process done for the file {original_path}')
             logger.info(f'File upgrade process trace is  {_upgrade_file.description}')
