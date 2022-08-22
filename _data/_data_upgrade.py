@@ -24,6 +24,7 @@ class upgrade(models.Model):
     status = models.CharField(max_length=1, choices=PROGRESS, default='I')
     description = models.CharField(max_length=1024, verbose_name='Progress Description')
 
+
     def do_createTemporary_filename(self):
         if self.status == 'I':
             if self.original_filename_path is not None and self.original_filename_path != '':
