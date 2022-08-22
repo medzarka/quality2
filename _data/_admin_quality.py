@@ -37,11 +37,14 @@ def update_file_field(cfi_obj, logger):
     for _field in _fields.keys():
         original_path = _field.path
 
-
         _upgrade_file = upgrade()
-        _upgrade_file.original_filename_path = u''.join(original_path)
+        _upgrade_file.original_filename_path = original_path.encode(encoding="ascii",errors="backslashreplace")
         logger.info(f'Test1 original --> {original_path}')
-        logger.info(f'Test2 original with u"" --> {_upgrade_file.original_filename_path}')
+        logger.info(f'Test2 original with backslashreplace"" --> {original_path.encode(encoding="ascii",errors="backslashreplace")}')
+        logger.info(f'Test2 original with ignore"" --> {original_path.encode(encoding="ascii",errors="ignore")}')
+        logger.info(f'Test2 original with namereplace"" --> {original_path.encode(encoding="ascii",errors="namereplace")}')
+        logger.info(f'Test2 original with replace"" --> {original_path.encode(encoding="ascii",errors="replace")}')
+        logger.info(f'Test2 original with xmlcharrefreplace"" --> {original_path.encode(encoding="ascii",errors="xmlcharrefreplace")}')
         _upgrade_file.save()
 
         try:
