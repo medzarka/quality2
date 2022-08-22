@@ -27,7 +27,8 @@ class upgrade(models.Model):
     def do_createTemporary_filename(self):
         if self.status == 'I':
             if self.original_filename_path is not None and self.original_filename_path != '':
-                tmp_filename = f'{str(uuid.uuid4())}.{self.original_filename_path.split(".")[-1]}'
+                self.temporary_filename = str(uuid.uuid4())
+                tmp_filename = f'{self.temporary_filename}.{self.original_filename_path.split(".")[-1]}'
                 self.temporary_filename_path = os.path.join(settings.SITE_TMP_DIR, tmp_filename)
                 self.status = 'T'
             else:
