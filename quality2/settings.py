@@ -16,7 +16,6 @@ import environ
 import os
 
 
-
 def createDir(dirname):
     try:
         os.makedirs(dirname)
@@ -26,13 +25,15 @@ def createDir(dirname):
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ENVIRON_CONFIG_PATH = os.path.join(os.path.expanduser("~"), '.uKKU2')
+createDir(ENVIRON_CONFIG_PATH)
 
 if 'env_file' in os.environ.keys():
-    env_file = os.path.join(BASE_DIR, 'env', os.getenv('env_file'))
+    env_file = os.path.join(ENVIRON_CONFIG_PATH, os.getenv('env_file'))
     print(f'Configuration Site in file {env_file}.')
 else:
     env_file = 'env'
-    env_file = os.path.join(BASE_DIR, 'env', 'env')
+    env_file = os.path.join(ENVIRON_CONFIG_PATH, 'env')
     print(f'Configuration Site in file {env_file}.')
 
 if env_file is None:
@@ -46,7 +47,9 @@ if not os.path.exists(os.path.join(BASE_DIR, env_file)):
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False),
+    PRODUCTION=(bool, False),
     SITE_DATA_PATH=(str, 'data'),
+    SITE_TMP_DIR=(str, '/tmp'),
     SESSION_EXPIRE_AT_BROWSER_CLOSE=(bool, False),
     SESSION_COOKIE_AGE=(int, 3600),
     FILE_UPLOAD_MAX_MEMORY_SIZE=(int, 104857600),
@@ -79,6 +82,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
+PRODUCTION = env.bool('PRODUCTION')
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', env.str('SITE_URL')]
 
@@ -143,11 +147,11 @@ WSGI_APPLICATION = 'quality2.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 
-if DEBUG:#env.str('DATABASE_URL', default=''):
+if PRODUCTION is False:  # env.str('DATABASE_URL', default=''):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'django_dev.sqlite3',
+            'NAME': os.path.join(ENVIRON_CONFIG_PATH, 'db.sqlite3'),
         },
     }
 else:
@@ -162,7 +166,6 @@ else:
     }
 
 print(f'DATABASES --> {DATABASES}')
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -304,5 +307,4 @@ SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS')
 SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool('SECURE_HSTS_INCLUDE_SUBDOMAINS')
 SECURE_HSTS_PRELOAD = env.bool('SECURE_HSTS_PRELOAD')
 
-
-SITE_TMP_DIR  = env.str('SITE_TMP_DIR')
+SITE_TMP_DIR = env.str('SITE_TMP_DIR')
