@@ -20,8 +20,8 @@ class Migration(migrations.Migration):
                 ('footer_text_ar', models.CharField(max_length=250, null=True, unique=True, verbose_name='Footer Arab Text')),
                 ('footer_year', models.CharField(max_length=250, null=True, unique=True, verbose_name='Footer Year')),
                 ('footer_version', models.CharField(max_length=250, unique=True, verbose_name='Footer Version')),
-                ('footer_address_en', models.CharField(max_length=1024, unique=True, verbose_name='Footer Address')),
-                ('footer_address_ar', models.CharField(max_length=1024, unique=True, verbose_name='Footer Arab Address')),
+                ('footer_address_en', models.CharField(max_length=250, unique=True, verbose_name='Footer Address')),
+                ('footer_address_ar', models.CharField(max_length=250, unique=True, verbose_name='Footer Arab Address')),
                 ('footer_logo', models.ImageField(upload_to='media/site/images/')),
             ],
             options={
