@@ -15,10 +15,10 @@ class email(models.Model):
     email_id = models.BigAutoField(primary_key=True, verbose_name="Email ID")
     email_sender = models.CharField(max_length=250, verbose_name="Email Sender", default=settings.EMAIL_HOST_USER)
     email_receiver = models.CharField(max_length=250, verbose_name="Email Receiver", null=True, blank=True)
-    email_title = models.CharField(max_length=512, verbose_name="Email Title", null=True, blank=True)
-    email_message = models.CharField(max_length=4096, verbose_name="Email Message", null=False, blank=False)
+    email_title = models.CharField(max_length=250, verbose_name="Email Title", null=True, blank=True)
+    email_message = models.CharField(max_length=250, verbose_name="Email Message", null=False, blank=False)
     sending_time = models.DateTimeField(auto_now=True, verbose_name="Sending time")
-    sending_state = models.CharField(max_length=2048, verbose_name="Email Status", default='Created')
+    sending_state = models.CharField(max_length=250, verbose_name="Email Status", default='Created')
     email_is_sent = models.BooleanField(default=False, verbose_name="Email Sent ?")
 
     def __str__(self):

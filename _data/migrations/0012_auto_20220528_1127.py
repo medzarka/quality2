@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='email',
             name='sending_state',
-            field=models.CharField(default='Created', max_length=2048, verbose_name='Email Status'),
+            field=models.CharField(default='Created', max_length=250, verbose_name='Email Status'),
         ),
     ]
