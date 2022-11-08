@@ -14,11 +14,11 @@ class Migration(migrations.Migration):
             name='upgrade',
             fields=[
                 ('upgrade_id', models.BigAutoField(primary_key=True, serialize=False, verbose_name='Upgrade ID')),
-                ('original_filename_path', models.CharField(default='', max_length=1024, verbose_name='Original Filename Path')),
-                ('temporary_filename_path', models.CharField(default='', max_length=1024, verbose_name='Temporary Filename Path')),
-                ('temporary_filename', models.CharField(default='', max_length=1024, verbose_name='Temporary Filename')),
+                ('original_filename_path', models.CharField(default='', max_length=250, verbose_name='Original Filename Path')),
+                ('temporary_filename_path', models.CharField(default='', max_length=250, verbose_name='Temporary Filename Path')),
+                ('temporary_filename', models.CharField(default='', max_length=250, verbose_name='Temporary Filename')),
                 ('status', models.CharField(choices=[('I', 'Record Created'), ('T', 'TemporaryFile named'), ('C', 'Original Copied to the temporary file'), ('U', 'The file field is upgraded.'), ('F', 'Finished'), ('E', 'Error occurred')], default='I', max_length=1)),
-                ('description', models.CharField(max_length=1024, verbose_name='Progress Description')),
+                ('description', models.CharField(max_length=250, verbose_name='Progress Description')),
             ],
             options={
                 'verbose_name': 'Upgrade',
