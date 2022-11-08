@@ -615,6 +615,13 @@ class _page_measuerement_export(Abstract_UI_Page):
                         _cell1 = table_cell(cell_centent=_text1)
                         _row.add_cell_to_row(_cell1)
 
+                    except FileNotFoundError:
+                        _text1 = ui_text_element(text='')
+                        _cell1 = table_cell(cell_centent=_text1)
+                        _row.add_cell_to_row(_cell1)
+                        _text1 = ui_text_element(text='File not found !')
+                        _cell1 = table_cell(cell_centent=_text1)
+                        _row.add_cell_to_row(_cell1)
 
                     except ValueError:
                         _text1 = ui_text_element(text='')
