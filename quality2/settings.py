@@ -25,22 +25,20 @@ def createDir(dirname):
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ENVIRON_CONFIG_PATH = os.path.join(os.path.expanduser("~"), '.uKKU2')
-createDir(ENVIRON_CONFIG_PATH)
 
 if 'env_file' in os.environ.keys():
-    env_file = os.path.join(ENVIRON_CONFIG_PATH, os.getenv('env_file'))
+    env_file = os.path.join(BASE_DIR, 'env', os.getenv('env_file'))
     print(f'Configuration Site in file {env_file}.')
 else:
     env_file = 'env'
-    env_file = os.path.join(ENVIRON_CONFIG_PATH, 'env')
+    env_file = os.path.join(BASE_DIR, 'env', 'env')
     print(f'Configuration Site in file {env_file}.')
 
 if env_file is None:
     print(f'The env filename "env_file" is not set !')
     sys.exit(-1)
 
-if not os.path.exists(os.path.join(BASE_DIR, env_file)):
+if not os.path.exists(env_file):
     print(f'The env filename {env_file} does not exist!')
     sys.exit(-1)
 
@@ -151,7 +149,7 @@ if PRODUCTION is False:  # env.str('DATABASE_URL', default=''):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(ENVIRON_CONFIG_PATH, 'db.sqlite3'),
+            'NAME': os.path.join(SITE_DATA_DIR, 'db.sqlite3'),
         },
     }
 else:
