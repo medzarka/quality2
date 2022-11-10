@@ -82,6 +82,9 @@ class _page_quality_export(Abstract_UI_Page):
                             zip_filename = _export_file.export_file.path
                             os.remove(log_filename)
                             os.remove(zip_filename)
+                        except FileNotFoundError:
+                            pass
+
                         except ValueError as ee:
                             pass
 
