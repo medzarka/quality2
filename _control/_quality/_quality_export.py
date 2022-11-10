@@ -186,6 +186,14 @@ class _page_quality_export(Abstract_UI_Page):
                                                  alert=UI_Text_Alert_Type.ALERT_INFO)
                         _cell1 = table_cell(cell_centent=_text1)
                         _row.add_cell_to_row(_cell1)
+
+                    except FileNotFoundError:
+                        _text1 = ui_text_element(text='')
+                        _cell1 = table_cell(cell_centent=_text1)
+                        _row.add_cell_to_row(_cell1)
+                        _text1 = ui_text_element(text='File not found')
+                        _cell1 = table_cell(cell_centent=_text1)
+                        _row.add_cell_to_row(_cell1)
                     except ValueError:
                         _text1 = ui_text_element(text='')
                         _cell1 = table_cell(cell_centent=_text1)
