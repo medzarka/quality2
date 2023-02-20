@@ -18,11 +18,11 @@ class upgrade(models.Model):
     )
 
     upgrade_id = models.BigAutoField(primary_key=True, verbose_name='Upgrade ID')
-    original_filename_path = models.CharField(max_length=250, verbose_name='Original Filename Path', default='')
-    temporary_filename_path = models.CharField(max_length=250, verbose_name='Temporary Filename Path', default='')
+    original_filename_path = models.CharField(max_length=2500, verbose_name='Original Filename Path', default='')
+    temporary_filename_path = models.CharField(max_length=2500, verbose_name='Temporary Filename Path', default='')
     temporary_filename = models.CharField(max_length=250, verbose_name='Temporary Filename', default='')
     status = models.CharField(max_length=1, choices=PROGRESS, default='I')
-    description = models.CharField(max_length=250, verbose_name='Progress Description')
+    description = models.CharField(max_length=2500, verbose_name='Progress Description')
 
 
     def do_createTemporary_filename(self):
