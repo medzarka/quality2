@@ -1,2 +1,3 @@
 check the file names and paths
 seperation for colleges and departments.
+try the theme https://github.com/lukasvinclav/django-nucleus
