@@ -22,7 +22,7 @@ def execCommand(cmd, print_trace=True):
 def database():
     os.makedirs(backup_database_path, exist_ok=True)
     current_datetime = date.now()
-    str_current_datetime = str(current_datetime)
+    str_current_datetime = str(current_datetime).replace(':', '_')
     file_name = os.path.join(backup_database_path, str_current_datetime + ".json")
     execCommand(f'{python_path} manage.py dumpdata --exclude auth.permission --exclude contenttypes > {file_name}')
     print('to load the data, type following command:')
